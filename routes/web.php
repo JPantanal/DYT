@@ -50,5 +50,9 @@ Route::get('events', [EventController::class, 'index'])->middleware(['auth', 've
 
 Route::get('calendar', [EventController::class, 'index']);
 
+Route::post('/submit-schedule-tutoring',[EventController::class, 'store'])
+    ->middleware(['auth', 'verified']);
+
+
 
 require __DIR__.'/auth.php';
