@@ -39,15 +39,8 @@ export default {
     },
     methods:{
         handleDateClick: function(arg){
-            //alert(arg.dateStr + " was selected")
-            //if allday = true
-
-            //if allday = false
-
-           // 'Tue Sep 19 2023 03:00:00 GMT-0800'
-            this.CalenderBeginTime=  arg.date.toISOString().slice(0,16)
+            this.CalenderBeginTime= arg.date.toISOString().slice(0,16)
             this.showModal = true;
-            //this.CalenderBeginTime = '2023-09-12T05:41';
         },
 
         handleSelect: function(arg){
@@ -64,7 +57,7 @@ export default {
                 <template #header>
                     <h3>Schedule Tutoring Session</h3>
                 </template>
-                <template v-slot:beginTime>
+                <template v-slot:beginDateTime>
                     <label for="beginDateTime">Begin Time</label>
                     <input id="beginDateTime" type ="datetime-local" v-model="CalenderBeginTime" >
                 </template>

@@ -9,9 +9,9 @@ export default {
     data(){
         return{
             form: useForm ({
-                title: '',
-                beginDateTime: '',
-                endDateTime:'',
+                title: null,
+                beginDateTime: null,
+                endDateTime:null,
                 status:1
             }),
         }
@@ -29,11 +29,11 @@ export default {
                     </div>
                     <div class="modal-body">
                             <div>
-                             <slot name="beginTime"><label>Begin Time</label> <input type="datetime-local" > </slot>
+                             <slot name="beginTime"><label>Begin Time</label> <input type="datetime-local" v-model="form.beginDateTime"> </slot>
                             </div>
                             <div>
                                <slot name="endTime">
-                                   <label for="endDateTime">End Time</label> <input id="endDateTime" type="datetime-local"  v-model="endDateTime" >
+                                   <label for="endDateTime">End Time</label> <input type="datetime-local"  v-model="form.endDateTime" >
                                    <div v-if="endDateTime===null"> You need to put an end date. </div>
                                </slot>
                             </div>
@@ -42,8 +42,8 @@ export default {
                             </div>
                     </div>
                      <div class="modal-footer">
-                            <button class="modal-test-button  hover:text-gray-900" type="submit">Submit</button>
-                            <button class="modal-default-button hover:text-gray-900"  @click="$emit('close')"> Cancel</button>
+                            <button class="modal-test-button  hover:text-gray-900" type="submit" :disabled="form.processing">Submit</button>
+                            <button class="modal-default-button hover:text-gray-900"  type ="button" @click="$emit('close')"> Cancel</button>
                     </div>
             </form>
         </div>
