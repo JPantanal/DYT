@@ -1,4 +1,6 @@
 <script>
+import {router, useForm} from '@inertiajs/vue3'
+import { reactive } from 'vue'
 
 export default {
     props: {
@@ -6,26 +8,14 @@ export default {
     },
     data(){
         return{
-            beginDateTime: '',
-            endDateTime: '',
-
-        };
-    },
-    method:{
-        submitForm(){
-            axios.post('/submit-schedule-tutoring',{
-                beginDateTime:this.beginDateTime,
-                endDateTime: this.endDateTime,
-                status: 1,
-            })
-            .then(respons=>{
-                console.log(response.data);
-            })
-            .catch(error=>{
-                console.error(error)
-            })
+            form: useForm ({
+                title: '',
+                beginDateTime: '',
+                endDateTime:'',
+                status:1
+            }),
         }
-    }
+    },
 }
 </script>
 
@@ -33,29 +23,30 @@ export default {
     <Transition name="modal">
         <div v-if="show" class="modal-mask">
             <div class="modal-container">
-                <form>
-                    <div class="modal-header">
+                <form @submit.prevent="form.post('/schedule-tutoring')">
+                <div class="modal-header">
                         <slot name="header">Modal Header</slot>
                     </div>
                     <div class="modal-body">
-                        <div>
-                         <slot name="beginTime"><label>Begin Time</label> <input type="datetime-local" v-model="beginDateTime" > </slot>
-                        </div>
-                        <div>
-                           <slot name="endTime"><label>End Time</label> <input type="datetime-local"  v-model="endDateTime" ></slot>
-                        </div>
-                        <div>
-                            <label>Is there anything you would like to add</label> <textarea id ="myTextArea" rows="4" cols="23"> </textarea>
-                        </div>
+                            <div>
+                             <slot name="beginTime"><label>Begin Time</label> <input type="datetime-local" > </slot>
+                            </div>
+                            <div>
+                               <slot name="endTime">
+                                   <label for="endDateTime">End Time</label> <input id="endDateTime" type="datetime-local"  v-model="endDateTime" >
+                                   <div v-if="endDateTime===null"> You need to put an end date. </div>
+                               </slot>
+                            </div>
+                            <div>
+                                <label>Is there anything you would like to add</label> <textarea id ="myTextArea" rows="4" cols="23"> </textarea>
+                            </div>
                     </div>
-                    <div class="modal-footer">
-                        <slot name="footer">
-                            <button class="modal-default-sucess-button" type="subnmit">Submit</button>
-                            <button class="modal-default-button"  @click="$emit('close')">Cancel</button>
-                        </slot>
+                     <div class="modal-footer">
+                            <button class="modal-test-button  hover:text-gray-900" type="submit">Submit</button>
+                            <button class="modal-default-button hover:text-gray-900"  @click="$emit('close')"> Cancel</button>
                     </div>
-                </form>
-            </div>
+            </form>
+        </div>
         </div>
     </Transition>
 </template>
@@ -94,18 +85,53 @@ export default {
 
 .modal-default-button {
     float: right;
+    background: linear-gradient( grey 2.16%, grey 90.72%);
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 30px;
+    min-width: 60px;
+
+
 }
 .modal-default-sucess-button{
     color:#42b4b9
 }
 
 
+.modal-test-button{
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 30px;
+    padding: 0px 15px;
+    text-shadow: black 0px 3px 8px;
+    background: linear-gradient(92.88deg, #42b4b9 9.16%, #42b4b9 43.89%, #42b983 64.72%);
+    transition: all 0.5s ease 0s;
+
+}
+
 
 /*
  * The following styles are auto-applied to elements with
  * transition="modal" when their visibility is toggled
  * by Vue.js.
- *
+ *-->
+    :hover{
+        box-shadow: black 0px 3px 40px;
+        transition: all 0.1s ease 0s;
+    }
+
  * You can easily play with the modal transition by editing
  * these styles.
  */

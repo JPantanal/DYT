@@ -65,12 +65,11 @@ export default {
                     <h3>Schedule Tutoring Session</h3>
                 </template>
                 <template v-slot:beginTime>
-                    Begin Time
-                    <input id = "beginDateTime" type="datetime-local"  v-model="CalenderBeginTime" >
+                    <label for="beginDateTime">Begin Time</label>
+                    <input id="beginDateTime" type ="datetime-local" v-model="CalenderBeginTime" >
                 </template>
             </modal>
         </Teleport>
-
 
         <authenticated-layout>
         <div>
