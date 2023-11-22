@@ -1,6 +1,5 @@
 <script>
 import {router, useForm} from '@inertiajs/vue3'
-import { reactive } from 'vue'
 
 export default {
     props: {
