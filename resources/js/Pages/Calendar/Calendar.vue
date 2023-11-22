@@ -6,10 +6,12 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import Modal from '/resources/js/Components/Modals/EventModal.vue'
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import interactionPlugin from '@fullcalendar/interaction';
+import {Head} from "@inertiajs/vue3";
 
 export default {
         name: "Calendar",
     components: {
+        Head,
         Modal,
         AuthenticatedLayout,
         FullCalendar // make the <FullCalendar> tag available
@@ -34,12 +36,16 @@ export default {
             },
             showModal: false,
             CalenderBeginTime: '',
-            endTime: null,
+            CalenderEndTime:'',
         }
     },
     methods:{
         handleDateClick: function(arg){
-            this.CalenderBeginTime= arg.date.toISOString().slice(0,16)
+            this.CalenderBeginTime = arg.date.toISOString().slice(0,16);
+            //add 1 hour
+            var addhour = new Date();
+            addhour.setTime((arg.date.getTime()+ 60 * 60 * 1000));
+            this.CalenderEndTime = addhour.toISOString().slice(0,16) //add 1 hour to time
             this.showModal = true;
         },
 
@@ -49,15 +55,15 @@ export default {
     }
 }
 </script>
-
     <template>
+        <Head title="DYTutoring Scheduling" />
         <Teleport to="body">
             <!-- use the modal component, pass in the prop -->
             <modal :show="showModal" @close="showModal = false">
                 <template #header>
                     <h3>Schedule Tutoring Session</h3>
                 </template>
-                <template v-slot:beginDateTime>
+                <template v-slot:beginTime>
                     <label for="beginDateTime">Begin Time</label>
                     <input id="beginDateTime" type ="datetime-local" v-model="CalenderBeginTime" >
                 </template>
