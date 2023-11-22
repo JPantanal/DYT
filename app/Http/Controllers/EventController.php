@@ -41,24 +41,14 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-
-            //validate the rquest. I think it makes sense to put this somewhere else in future.
-
-
-      //  $validated = $request->validate([
-            //'title' => 'required|unique:posts|max:255',
-        //    'beginDateTime' => 'required',
-       //     'endDateTIme' => 'required',
-      // ]);
-
         $event = new Event;
         $event->title = "Tutoring Session";
         $event->startDateTime =$request->beginDateTime;
-        $event->endDateTime =$request->beginDateTime;
+        $event->endDateTime =$request->endDateTime;
         $event->client_id= auth()->user()->id;
-        $event->tutor_id=null; //got to find the tutor ID!
+        $event->tutor_id=1; //got to find the tutor ID!
         $event->status =$request->status; //This should alwys be 0 //pending.
-        $event ->save();
+       // $event ->save();
         return to_route('events.index');
     }
 
