@@ -67,6 +67,10 @@ export default {
                     <label for="beginDateTime">Begin Time</label>
                     <input id="beginDateTime" type ="datetime-local" v-model="CalenderBeginTime" >
                 </template>
+                <template v-slot:endTime>
+                    <label for="endDateTime">Begin Time</label>
+                    <input id="endDateTime" type ="datetime-local" v-model="CalenderEndTime" >
+                </template>
             </modal>
         </Teleport>
 
