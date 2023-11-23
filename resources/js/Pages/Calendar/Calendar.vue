@@ -3,20 +3,21 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 
-import Modal from '/resources/js/Components/Modals/EventModal.vue'
+import EventModal from '/resources/js/Components/Modals/EventModal.vue'
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import interactionPlugin from '@fullcalendar/interaction';
 import {Head} from "@inertiajs/vue3";
 
 export default {
-        name: "Calendar",
-    components: {
-        Head,
-        Modal,
-        AuthenticatedLayout,
-        FullCalendar // make the <FullCalendar> tag available
-    },
-    data: function() {
+         name: 'Calendar',
+    components:
+        {
+            Head,
+            EventModal,
+            AuthenticatedLayout,
+            FullCalendar // make the <FullCalendar> tag available
+        },
+        data: function() {
         return {
             calendarOptions: {
                 plugins: [dayGridPlugin,timeGridPlugin, interactionPlugin ],
@@ -32,10 +33,9 @@ export default {
                     center: 'title',
                     right: 'dayGridMonth timeGridWeek timeGridDay'
                 },
-
             },
             showModal: false,
-            CalenderBeginTime: '',
+            CalenderBeginTime: 'asd',
             CalenderEndTime:'',
         }
     },
@@ -59,7 +59,7 @@ export default {
         <Head title="DYTutoring Scheduling" />
         <Teleport to="body">
             <!-- use the modal component, pass in the prop -->
-            <modal :show="showModal" @close="showModal = false">
+            <EventModal :show="showModal" @close="showModal = false" :begin="CalenderBeginTime"  :end="CalenderEndTime" >
                 <template #header>
                     <h3>Schedule Tutoring Session</h3>
                 </template>
@@ -71,7 +71,7 @@ export default {
                     <label for="endDateTime">Begin Time</label>
                     <input id="endDateTime" type ="datetime-local" v-model="CalenderEndTime" >
                 </template>
-            </modal>
+            </EventModal>
         </Teleport>
 
         <authenticated-layout>

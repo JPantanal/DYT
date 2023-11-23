@@ -1,20 +1,39 @@
 <script>
 import {router, useForm} from '@inertiajs/vue3'
-
 export default {
     props: {
         show: Boolean,
+        begin: {
+            type: String
+        },
+        end: {
+            type: String
+        }
     },
     data(){
-        return{
+        return{ // Create a local copy of the form data
             form: useForm ({
                 title: null,
-                beginDateTime: null,
+                LocalBeginDateTime:'begin',
                 endDateTime:null,
                 status:1
             }),
         }
     },
+    watch: {
+        // Watch for changes in the prop value and update localEmail accordingly
+        begin(newValue) {
+            console.log("logging here:" + newValue)
+            console.log("localbeginDateTime is " +this.LocalBeginDateTime)
+            this.LocalBeginDateTime = newValue;
+            console.log("localbeginDateTime is " +this.LocalBeginDateTime)
+        }
+    },
+    methods: {
+        getStartTime(value) {
+            console.log(value); // Raja Tamil
+        }
+    }
 }
 </script>
 
@@ -28,11 +47,14 @@ export default {
                     </div>
                     <div class="modal-body">
                             <div>
-                             <slot name="beginTime"><label>Begin Time</label> <input type="datetime-local" v-model="form.beginDateTime"> </slot>
+                             <slot name="beginTime"><label>Begin Time</label>
+                                 <input type="datetime-local"  v-model="LocalBeginDateTime" >
+                             </slot>
                             </div>
                             <div>
                                <slot name="endTime">
-                                   <label for="endDateTime">End Time</label> <input type="datetime-local"  v-model="form.endDateTime" >
+                                   <label for="endDateTime">End Time</label>
+                                   <input type="datetime-local"  v-model="endtime" >
                                    <div v-if="endDateTime===null"> You need to put an end date. </div>
                                </slot>
                             </div>
@@ -44,7 +66,7 @@ export default {
                             <button class="modal-test-button  hover:text-gray-900" type="submit" :disabled="form.processing">Submit</button>
                             <button class="modal-default-button hover:text-gray-900"  type ="button" @click="$emit('close')"> Cancel</button>
                     </div>
-            </form>
+                </form>
         </div>
         </div>
     </Transition>
