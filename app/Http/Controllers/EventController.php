@@ -14,14 +14,29 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+       return Inertia::render('Calendar/Calendar', [
 
-       // phpinfo();
-    //  xdebug_info();
-        return Inertia::render('Calendar/Calendar', [
-        ]);
+       ]);
     }
+
+    public function usersevents(Request $request){
+        $user=auth()->user();
+        $events = $user->events()->get();
+
+        $events = str_replace("startDateTime", "start", json_encode($events));
+        $events = json_decode($events, true);
+
+        $events = str_replace("endDateTime", "end", json_encode($events));
+        $events = json_decode($events, true);
+
+
+
+        return response()->json($events);
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -43,12 +58,12 @@ class EventController extends Controller
     {
         $event = new Event;
         $event->title = "Tutoring Session";
-        $event->startDateTime =$request->beginDateTime;
-        $event->endDateTime =$request->endDateTime;
+        $event->startDateTime =$request->LocalBeginDateTime;
+        $event->endDateTime =$request->LocalEndDateTime;
         $event->client_id= auth()->user()->id;
         $event->tutor_id=1; //got to find the tutor ID!
         $event->status =$request->status; //This should alwys be 0 //pending.
-       // $event ->save();
+        $event ->save();
         return to_route('events.index');
     }
 

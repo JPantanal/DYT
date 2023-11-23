@@ -1,5 +1,6 @@
 <script>
 import {router, useForm} from '@inertiajs/vue3'
+
 export default {
     props: {
         show: Boolean,
@@ -8,30 +9,33 @@ export default {
         },
         end: {
             type: String
-        }
+        },
     },
     data(){
         return{ // Create a local copy of the form data
-            form: useForm ({
+            form:useForm({
                 title: null,
-                LocalBeginDateTime:'begin',
-                endDateTime:null,
-                status:1
+                LocalBeginDateTime:"",
+                LocalEndDateTime:null,
+                status:1,
+                appointmentInfo: ""
             }),
         }
     },
     watch: {
-        // Watch for changes in the prop value and update localEmail accordingly
+        // Watch for changes in the prop value and update  accordingly
         begin(newValue) {
-            console.log("logging here:" + newValue)
-            console.log("localbeginDateTime is " +this.LocalBeginDateTime)
-            this.LocalBeginDateTime = newValue;
-            console.log("localbeginDateTime is " +this.LocalBeginDateTime)
+            this.form.LocalBeginDateTime= newValue;
+        },
+        end(newValue){
+            this.form.LocalEndDateTime = newValue;
         }
+
     },
+
     methods: {
-        getStartTime(value) {
-            console.log(value); // Raja Tamil
+        submit(){
+            router.post('/schedule-tutoring', this.form, {preserveState: false })
         }
     }
 }
@@ -41,25 +45,26 @@ export default {
     <Transition name="modal">
         <div v-if="show" class="modal-mask">
             <div class="modal-container">
-                <form @submit.prevent="form.post('/schedule-tutoring')">
+                <form @submit.prevent="submit">
                 <div class="modal-header">
                         <slot name="header">Modal Header</slot>
                     </div>
                     <div class="modal-body">
                             <div>
-                             <slot name="beginTime"><label>Begin Time</label>
-                                 <input type="datetime-local"  v-model="LocalBeginDateTime" >
+                             <slot name="beginTime" > <label>Begin Time</label>
+                                 <input type="datetime-local"  v-model="form.LocalBeginDateTime" >
                              </slot>
                             </div>
                             <div>
-                               <slot name="endTime">
+                               <slot name="endTime" >
                                    <label for="endDateTime">End Time</label>
-                                   <input type="datetime-local"  v-model="endtime" >
+                                   <input type="datetime-local"  v-model="form.endDateTime" >
                                    <div v-if="endDateTime===null"> You need to put an end date. </div>
                                </slot>
                             </div>
                             <div>
-                                <label>Is there anything you would like to add</label> <textarea id ="myTextArea" rows="4" cols="23"> </textarea>
+                                <label>Is there anything you would like to add</label>
+                                <textarea id ="myTextArea" rows="4" cols="23" v-model="form.appointmentInfo"> </textarea>
                             </div>
                     </div>
                      <div class="modal-footer">

@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
-use vendor\Event;
+//use vendor\Event;
 
 class User extends Authenticatable
 {
@@ -35,9 +35,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Chirp::class);
     }
-    public function events(): HasMany
+    public function events()
     {
-        return $this->hasMany(Event::class);
+        return $this->hasMany(Event::class, 'client_id', 'id');
     }
 
 

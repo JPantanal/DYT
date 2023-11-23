@@ -7,6 +7,8 @@ import EventModal from '/resources/js/Components/Modals/EventModal.vue'
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import interactionPlugin from '@fullcalendar/interaction';
 import {Head} from "@inertiajs/vue3";
+//import GetEventsFromDatabase from '/resources/js/Components/EventComponents/GetEventsFromDatabase.vue'
+import GetEventsFromDatabase from "../../Components/EventComponents/GetEventsFromDatabase.vue";
 
 export default {
          name: 'Calendar',
@@ -15,7 +17,9 @@ export default {
             Head,
             EventModal,
             AuthenticatedLayout,
-            FullCalendar // make the <FullCalendar> tag available
+            FullCalendar, // make the <FullCalendar> tag available
+            GetEventsFromDatabase
+
         },
         data: function() {
         return {
@@ -35,7 +39,7 @@ export default {
                 },
             },
             showModal: false,
-            CalenderBeginTime: 'asd',
+            CalenderBeginTime: '',
             CalenderEndTime:'',
         }
     },
@@ -48,7 +52,9 @@ export default {
             this.CalenderEndTime = addhour.toISOString().slice(0,16) //add 1 hour to time
             this.showModal = true;
         },
-
+        handleEventsFetched(fetchedEvents) {
+            this.calendarOptions.events = fetchedEvents;
+        },
         handleSelect: function(arg){
             alert( "was selected")
         }
@@ -59,11 +65,11 @@ export default {
         <Head title="DYTutoring Scheduling" />
         <Teleport to="body">
             <!-- use the modal component, pass in the prop -->
-            <EventModal :show="showModal" @close="showModal = false" :begin="CalenderBeginTime"  :end="CalenderEndTime" >
+            <EventModal  :show="showModal" @close="showModal = false" :begin="CalenderBeginTime"  :end="CalenderEndTime  " >
                 <template #header>
                     <h3>Schedule Tutoring Session</h3>
                 </template>
-                <template v-slot:beginTime>
+                <template v-slot:beginTime="beginDateTime">
                     <label for="beginDateTime">Begin Time</label>
                     <input id="beginDateTime" type ="datetime-local" v-model="CalenderBeginTime" >
                 </template>
@@ -76,8 +82,10 @@ export default {
 
         <authenticated-layout>
         <div>
-            <h1>Demo App</h1>
-            <FullCalendar :options='calendarOptions' ref="modal"/>
+            <h1>Dayton Tutoring</h1>
+            <GetEventsFromDatabase @events-fetched="handleEventsFetched" />
+            <FullCalendar :options='calendarOptions' ref="modal">
+            </FullCalendar>
         </div>
 
         </authenticated-layout>
