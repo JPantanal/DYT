@@ -29,6 +29,8 @@ export default {
                 weekends: true,
                 dateClick: this.handleDateClick,
                 select: this.handleSelect,
+                //selectable: this.handleEventSelect,
+                eventClick: this.handleEventClick,
                 events: [
                     { title: 'Meeting', start: new Date() }
                 ],
@@ -55,8 +57,16 @@ export default {
         handleEventsFetched(fetchedEvents) {
             this.calendarOptions.events = fetchedEvents;
         },
-        handleSelect: function(arg){
-            alert( "was selected")
+       // handleSelect: function(arg){
+       //     alert( "was selected")
+       // },
+        handleEventClick(arg){
+            console.log("in handle Event Select");
+        },
+        eventClick(info) {
+            alert('Event: ' + info.event.title);
+            alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+            alert('View: ' + info.view.type);
         }
     }
 }

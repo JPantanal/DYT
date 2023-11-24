@@ -48,6 +48,7 @@ Route::resource('chirps', ChirpController::class)
 
 Route::get('events', [EventController::class, 'index'])->middleware(['auth', 'verified'])->name("events.index");
 Route::get('events/usersevents', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.usersEvents");
+Route::get('events/tutorevents', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.tutorEvents");
 
 Route::get('calendar', [EventController::class, 'index']);
 

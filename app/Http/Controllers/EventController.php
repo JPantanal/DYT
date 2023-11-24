@@ -23,7 +23,7 @@ class EventController extends Controller
 
     public function usersevents(Request $request){
         $user=auth()->user();
-        $events = $user->events()->get();
+        $events = $user->clientevents()->get();
 
         $events = str_replace("startDateTime", "start", json_encode($events));
         $events = json_decode($events, true);
@@ -31,11 +31,21 @@ class EventController extends Controller
         $events = str_replace("endDateTime", "end", json_encode($events));
         $events = json_decode($events, true);
 
+        return response()->json($events);
+    }
+    public function tutorevents(Request $request){
+        $user=auth()->user();
 
+        $events = $user->tutorevents()->get();
+
+        $events = str_replace("startDateTime", "start", json_encode($events));
+        $events = json_decode($events, true);
+
+        $events = str_replace("endDateTime", "end", json_encode($events));
+        $events = json_decode($events, true);
 
         return response()->json($events);
     }
-
 
 
     /**

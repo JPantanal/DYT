@@ -35,11 +35,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Chirp::class);
     }
-    public function events()
+    public function clientevents()
     {
         return $this->hasMany(Event::class, 'client_id', 'id');
     }
-
+    public function tutorevents()
+    {
+        return $this->hasMany(Event::class, 'tutor_id', 'id');
+    }
 
     /**
      * The attributes that are mass assignable.
