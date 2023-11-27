@@ -4,6 +4,7 @@
 namespace App\Models;
 
 //use App\Models\User;
+use App\Enums\EventStateEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,18 +18,11 @@ class Event extends Model
 
     ];
 
-    protected $primaryKey = 'client_id';
+    //protected $primaryKey = 'client_id';
 
-/*
- *     public const Status = [
-        'Pending' => 0,
-        'Active'  => 1,
-        'Denied'  => 2,
-        'Cancelled' => 3,
-
+    protected $casts = [
+        'status' => EventStateEnum::class,
     ];
- *
- */
     public function user():BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -44,5 +38,9 @@ class Event extends Model
 
     public function create(request $request){
     }
+
+
+
+
 
 }

@@ -47,12 +47,13 @@ Route::resource('chirps', ChirpController::class)
     ->middleware(['auth', 'verified']);
 
 Route::get('events', [EventController::class, 'index'])->middleware(['auth', 'verified'])->name("events.index");
-Route::get('events/usersevents', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.usersEvents");
-Route::get('events/tutorevents', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.tutorEvents");
+Route::get('tutoring/usersevents', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.usersEvents");
+Route::get('tutoring/tutorevents', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.tutorEvents");
 
 Route::get('calendar', [EventController::class, 'index']);
 
-Route::post('/schedule-tutoring', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name("events.store");
+Route::post('/tutoring/', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name("events.store");
+Route::post('/tutoring/update', [EventController::class, 'update'])->middleware(['auth', 'verified'])->name("events.update");
 
-
+//->where('id', '[0-9]+')
 require __DIR__.'/auth.php';

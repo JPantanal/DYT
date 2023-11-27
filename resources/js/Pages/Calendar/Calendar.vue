@@ -32,26 +32,42 @@ export default {
                 //selectable: this.handleEventSelect,
                 eventClick: this.handleEventClick,
                 events: [
-                    { title: 'Meeting', start: new Date() }
+                    {
+                        title: 'Meeting',
+                        start: new Date(),
+                        extendedProps: {
+                            client_id: null,
+                            created_at: null,
+                            status: null,
+                            tutor_id: null,
+                            updated_at:null
+                        }
+                    }
                 ],
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth timeGridWeek timeGridDay'
                 },
+
             },
             showModal: false,
             CalenderBeginTime: '',
             CalenderEndTime:'',
+            ParentEventId:null,
+            ParentEventStatus: null
         }
     },
     methods:{
         handleDateClick: function(arg){
+
             this.CalenderBeginTime = arg.date.toISOString().slice(0,16);
             //add 1 hour
             var addhour = new Date();
             addhour.setTime((arg.date.getTime()+ 60 * 60 * 1000));
             this.CalenderEndTime = addhour.toISOString().slice(0,16) //add 1 hour to time
+            this.ParentEventId = null;
+            this.ParentEventStatus = 0;
             this.showModal = true;
         },
         handleEventsFetched(fetchedEvents) {
@@ -62,6 +78,12 @@ export default {
        // },
         handleEventClick(arg){
             console.log("in handle Event Select");
+            // open modal with data set.
+            this.CalenderBeginTime = arg.event.startStr.slice(0,16); // There is also startSTR and start
+            this.CalenderEndTime = arg.event.endStr.slice(0,16);     //arg.el.fcSeg.end;// arg.event.end; //arg.el.fcSeg.end;
+            this.ParentEventId = arg.event.id;
+            this.ParentEventStatus = arg.event.extendedProps.status;
+            this.showModal = true;
         },
         eventClick(info) {
             alert('Event: ' + info.event.title);
@@ -75,7 +97,8 @@ export default {
         <Head title="DYTutoring Scheduling" />
         <Teleport to="body">
             <!-- use the modal component, pass in the prop -->
-            <EventModal  :show="showModal" @close="showModal = false" :begin="CalenderBeginTime"  :end="CalenderEndTime  " >
+            <EventModal  :show="showModal" @close="showModal = false" :begin="CalenderBeginTime"  :end="CalenderEndTime" :eventid="ParentEventId"
+                         :eventStatus="ParentEventStatus" >
                 <template #header>
                     <h3>Schedule Tutoring Session</h3>
                 </template>
@@ -97,9 +120,7 @@ export default {
             <FullCalendar :options='calendarOptions' ref="modal">
             </FullCalendar>
         </div>
-
         </authenticated-layout>
     </template>
 <style scoped>
-
 </style>

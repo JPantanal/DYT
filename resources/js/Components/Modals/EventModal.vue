@@ -10,6 +10,11 @@ export default {
         end: {
             type: String
         },
+        eventStatus: {
+            type: Number
+        },
+        eventid: null
+
     },
     data(){
         return{ // Create a local copy of the form data
@@ -17,11 +22,20 @@ export default {
                 title: null,
                 LocalBeginDateTime:"",
                 LocalEndDateTime:null,
-                status:1,
-                appointmentInfo: ""
+                status:0,
+                appointmentInfo: "",
+                localeventid: null,
             }),
+            userRole: '0'
         }
     },
+    computed: {
+        isTutor()
+        {
+            return this.userRole === '1';
+        }
+    },
+
     watch: {
         // Watch for changes in the prop value and update  accordingly
         begin(newValue) {
@@ -29,24 +43,56 @@ export default {
         },
         end(newValue){
             this.form.LocalEndDateTime = newValue;
+        },
+        eventid(newValue){
+            this.form.localeventid = newValue;
+        },
+        eventStatus(newValue){
+            this.form.status = newValue;
         }
 
     },
 
     methods: {
-        submit(){
-            router.post('/schedule-tutoring', this.form, {preserveState: false })
-        }
+        handleSubmit(){
+            if(this.form.localeventid== null)
+            {
+                this.form.status = 1;
+                router.post('/tutoring/update', this.form, {preserveState: false });
+            }
+
+            else{
+                router.post('/tutoring/update' , this.form, {preserveState: false });
+
+            }
+
+        },
+//this.form.localeventid
+        beforeSubmit(newValue) {
+            this.form.status =newValue;
+            this.handleSubmit();
+        },
+
+
+
     }
 }
+const EventStateEnum = Object.freeze({
+    UNSENT: 0,
+    PENDING: 1,
+    SCHEDULED: 2,
+    CANCELED: 3
+});
+
 </script>
 
 <template>
     <Transition name="modal">
         <div v-if="show" class="modal-mask">
             <div class="modal-container">
-                <form @submit.prevent="submit">
-                <div class="modal-header">
+                <form @submit.prevent="handleSubmit">
+                    <button class="modal-close"  type ="button" @click="$emit('close')">X</button>
+                    <div class="modal-header">
                         <slot name="header">Modal Header</slot>
                     </div>
                     <div class="modal-body">
@@ -58,7 +104,7 @@ export default {
                             <div>
                                <slot name="endTime" >
                                    <label for="endDateTime">End Time</label>
-                                   <input type="datetime-local"  v-model="form.endDateTime" >
+                                   <input type="datetime-local"  v-model="form.LocalEndDateTime" >
                                    <div v-if="endDateTime===null"> You need to put an end date. </div>
                                </slot>
                             </div>
@@ -66,10 +112,35 @@ export default {
                                 <label>Is there anything you would like to add</label>
                                 <textarea id ="myTextArea" rows="4" cols="23" v-model="form.appointmentInfo"> </textarea>
                             </div>
-                    </div>
-                     <div class="modal-footer">
-                            <button class="modal-test-button  hover:text-gray-900" type="submit" :disabled="form.processing">Submit</button>
-                            <button class="modal-default-button hover:text-gray-900"  type ="button" @click="$emit('close')"> Cancel</button>
+
+                        <div v-if="form.status ===0">
+                            <label>Status: Unsent</label>
+                            <div class="modal-footer">
+                                <button v-if="form.localeventid==null" class="modal-test-button hover:text-gray-900"  type="submit" :disabled="form.processing">Submit</button>
+                                <button v-else class="modal-test-button  hover:text-gray-900"   type="submit" :disabled="form.processing">Update</button>
+                                <button class="modal-default-button hover:text-gray-900"  type ="button" @click="$emit('close')"> Close</button>
+                            </div>
+                        </div>
+                        <div v-if="form.status ===1">
+                            <label class="status-field">Status: Pending</label>
+                            <div class="modal-footer ">
+                                <button class="modal-test-button hover:text-gray-900" type="button" @click="beforeSubmit(2)" :disabled="form.processing">Approve</button>
+                                <button class="modal-default-button hover:text-gray-900 button-right" type="button" @click="beforeSubmit(3)" :disabled="form.processing">Deny</button>
+                            </div>
+                        </div>
+                        <div v-if="form.status === 2">
+                            <label>Status: Scheduled</label>
+                            <div class="modal-footer">
+                                <button class="modal-test-button  hover:text-gray-900" type="button" @click="beforeSubmit(3)" :disabled="form.processing">Cancel Meeting</button><button class="modal-default-button hover:text-gray-900"  type ="button" @click="$emit('close')"> Close</button>
+                            </div>
+                        </div>
+                        <div v-if="form.status === 3">
+                            <label>Status: Canceled</label>
+                                <div class="modal-footer">
+                                <label>Tutoring is Cancelled, if you would like to make a new appointment please re-schedule</label>
+                                <button class="modal-default-button hover:text-gray-900  "  type ="button" @click="$emit('close')"> Close</button>
+                            </div>
+                        </div>
                     </div>
                 </form>
         </div>
@@ -78,6 +149,8 @@ export default {
 </template>
 
 <style>
+
+
 .modal-mask {
     position: fixed;
     z-index: 9998;
@@ -91,13 +164,15 @@ export default {
 }
 
 .modal-container {
-    width: 300px;
+    width: 320px;
     margin: auto;
     padding: 20px 30px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
     transition: all 0.3s ease;
+    position: relative;
+
 }
 
 .modal-header h3 {
@@ -122,9 +197,8 @@ export default {
     font-size: 14px;
     height: 30px;
     min-width: 60px;
-
-
 }
+
 .modal-default-sucess-button{
     color:#42b4b9
 }
@@ -146,7 +220,27 @@ export default {
     transition: all 0.5s ease 0s;
 
 }
+.modal-close {
+    /* Styles for the close button */
+    position: absolute;
+    right:0;
+    top:0;
+    border: none;
+    background: grey;
+    cursor: pointer;
+    font-size: 20px; /* Adjust as needed */
+    padding-right: 5px;
+    padding-left: 7px;
+}
 
+.modal-footer{
+    padding-top: 10px;
+    position:relative;
+    bottom: 0px;
+}
+.down-padding{
+    padding-bottom: 5px;
+}
 
 /*
  * The following styles are auto-applied to elements with

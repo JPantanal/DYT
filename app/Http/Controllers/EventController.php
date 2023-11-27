@@ -59,6 +59,24 @@ class EventController extends Controller
         //
     }
 
+    public function update(Request $request)
+    {
+        $event = Event::find($request->localeventid);
+        $event->startDateTime =$request->LocalBeginDateTime;
+        $event->endDateTime =$request->LocalEndDateTime;
+       // $event->client_id= auth()->user()->id;
+        $event->tutor_id=1; //got to find the tutor ID!
+        $event->status =$request->status; //This should alwys be 0 //pending.
+        $event ->save();
+        return to_route('events.index');
+
+    }
+
+
+
+
+
+
     /**
      * Store a newly created resource in storage.
      * the store method should handle the form and create the entity and redirect.
@@ -99,10 +117,7 @@ class EventController extends Controller
      * Update the specified resource in storage.
      * The update method should handle the form and update the entity and redirect.
      */
-    public function update(Request $request, Event $event)
-    {
-        //
-    }
+
 
     /**
      * Remove the specified resource from storage.

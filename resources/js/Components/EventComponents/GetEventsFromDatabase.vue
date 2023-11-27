@@ -9,7 +9,7 @@ export default {
     },
     methods: {
         fetchEvents() {
-            fetch('/events/usersevents')
+            fetch('/tutoring/usersevents')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error fetching events');
