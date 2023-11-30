@@ -62,5 +62,15 @@ class ProfileController extends Controller
     }
 
 
+    public function role(Request $request):response {
+        $user = $request->user();
+       $userRole= $user->role();
+
+       return response()->json($userRole);
+    }
+
+
+
+
 
 }

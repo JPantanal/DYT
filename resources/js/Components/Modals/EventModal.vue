@@ -32,7 +32,7 @@ export default {
     computed: {
         isTutor()
         {
-            return this.userRole === '1';
+            return this.$page.props.auth.user.role === 1;
         }
     },
 
@@ -58,7 +58,7 @@ export default {
             if(this.form.localeventid== null)
             {
                 this.form.status = 1;
-                router.post('/tutoring/update', this.form, {preserveState: false });
+                router.post('/tutoring/store', this.form, {preserveState: false });
             }
 
             else{
@@ -72,17 +72,8 @@ export default {
             this.form.status =newValue;
             this.handleSubmit();
         },
-
-
-
     }
 }
-const EventStateEnum = Object.freeze({
-    UNSENT: 0,
-    PENDING: 1,
-    SCHEDULED: 2,
-    CANCELED: 3
-});
 
 </script>
 
@@ -117,17 +108,25 @@ const EventStateEnum = Object.freeze({
                             <label>Status: Unsent</label>
                             <div class="modal-footer">
                                 <button v-if="form.localeventid==null" class="modal-test-button hover:text-gray-900"  type="submit" :disabled="form.processing">Submit</button>
-                                <button v-else class="modal-test-button  hover:text-gray-900"   type="submit" :disabled="form.processing">Update</button>
+                                <button v-else class="modal-test-button  hover:text-gray-900"   type="submit" :disabled="form.processing">Submit</button>
                                 <button class="modal-default-button hover:text-gray-900"  type ="button" @click="$emit('close')"> Close</button>
                             </div>
                         </div>
-                        <div v-if="form.status ===1">
+                        <div v-if="form.status === 1 && isTutor">    <!--TODO: buttons show up for certain areas could get confusing with combinations -->
                             <label class="status-field">Status: Pending</label>
                             <div class="modal-footer ">
                                 <button class="modal-test-button hover:text-gray-900" type="button" @click="beforeSubmit(2)" :disabled="form.processing">Approve</button>
                                 <button class="modal-default-button hover:text-gray-900 button-right" type="button" @click="beforeSubmit(3)" :disabled="form.processing">Deny</button>
                             </div>
                         </div>
+                        <div v-if="form.status === 1 && !isTutor">
+                        <label class="status-field">Status: Pending</label>
+                            <div class="modal-footer ">
+                                <button class="modal-test-button hover:text-gray-900" type="button" @click="beforeSubmit(1)" :disabled="form.processing">Update</button>
+                                <button class="modal-default-button hover:text-gray-900 button-right" type="button" @click="beforeSubmit(3)" :disabled="form.processing">Cancel Pending Session  </button>
+                            </div>
+                        </div>
+
                         <div v-if="form.status === 2">
                             <label>Status: Scheduled</label>
                             <div class="modal-footer">

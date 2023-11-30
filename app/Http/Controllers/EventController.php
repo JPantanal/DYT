@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use http\Client\Curl\User;
+use http\Exception;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use App\Models\Event;
 use Illuminate\Support\Facades\Validator;
@@ -16,14 +20,15 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-       return Inertia::render('Calendar/Calendar', [
-
-       ]);
+       return Inertia::render('Calendar/Calendar');
     }
 
     public function usersevents(Request $request){
         $user=auth()->user();
-        $events = $user->clientevents()->get();
+        if($user->role==0)
+            $events = $user->clientevents()->get();
+        else
+            $events = $user->tutorevents()->get();
 
         $events = str_replace("startDateTime", "start", json_encode($events));
         $events = json_decode($events, true);
@@ -61,19 +66,30 @@ class EventController extends Controller
 
     public function update(Request $request)
     {
+        $validator= Validator::make($request->all(),
+            ['status' => 'required|numeric|',
+                function ($attribute, $value, $fail) {
+                if ($value == 2 && auth()->user()->role != 1) {
+                    $fail('The ' . $attribute . ' is invalid because your role must be 1.');
+                    }
+                },
+            ],
+        // ... other fields and rules
+
+        );
+        if ($validator->fails()) {
+            // Handle the failed validation
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $event = Event::find($request->localeventid);
         $event->startDateTime =$request->LocalBeginDateTime;
         $event->endDateTime =$request->LocalEndDateTime;
-       // $event->client_id= auth()->user()->id;
         $event->tutor_id=1; //got to find the tutor ID!
-        $event->status =$request->status; //This should alwys be 0 //pending.
+        $event->status =$request->status;
         $event ->save();
         return to_route('events.index');
-
     }
-
-
-
 
 
 
@@ -89,10 +105,11 @@ class EventController extends Controller
         $event->startDateTime =$request->LocalBeginDateTime;
         $event->endDateTime =$request->LocalEndDateTime;
         $event->client_id= auth()->user()->id;
-        $event->tutor_id=1; //got to find the tutor ID!
+        $event->tutor_id=5; //got to find the tutor ID!
         $event->status =$request->status; //This should alwys be 0 //pending.
         $event ->save();
         return to_route('events.index');
+        //return Inertia::render('events');  //uncaught promise exception
     }
 
     /**

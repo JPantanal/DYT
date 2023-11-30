@@ -8,8 +8,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import interactionPlugin from '@fullcalendar/interaction';
 import {Head} from "@inertiajs/vue3";
 //import GetEventsFromDatabase from '/resources/js/Components/EventComponents/GetEventsFromDatabase.vue'
+import {router, useForm} from '@inertiajs/vue3'
+
 import GetEventsFromDatabase from "../../Components/EventComponents/GetEventsFromDatabase.vue";
 
+let getColorForStatus;
 export default {
          name: 'Calendar',
     components:
@@ -24,6 +27,8 @@ export default {
         data: function() {
         return {
             calendarOptions: {
+                contentHeight: 'auto',
+                timeZone:'UTC',
                 plugins: [dayGridPlugin,timeGridPlugin, interactionPlugin ],
                 initialView: 'timeGridWeek',
                 weekends: true,
@@ -60,27 +65,42 @@ export default {
     },
     methods:{
         handleDateClick: function(arg){
-
             this.CalenderBeginTime = arg.date.toISOString().slice(0,16);
             //add 1 hour
-            var addhour = new Date();
-            addhour.setTime((arg.date.getTime()+ 60 * 60 * 1000));
-            this.CalenderEndTime = addhour.toISOString().slice(0,16) //add 1 hour to time
+            var addHour = new Date(arg.date);
+            addHour.setHours(addHour.getHours()+1);
+            this.CalenderEndTime = addHour.toISOString().slice(0,16);
+
             this.ParentEventId = null;
             this.ParentEventStatus = 0;
             this.showModal = true;
         },
         handleEventsFetched(fetchedEvents) {
+            fetchedEvents = fetchedEvents.map(event => ({...event,
+                color: this.getColorForStatus(event.status)
+            }));
             this.calendarOptions.events = fetchedEvents;
         },
-       // handleSelect: function(arg){
-       //     alert( "was selected")
-       // },
+         getColorForStatus (status) {
+              switch (status) {
+                  case 0:
+                      return 'green';
+                  case 1:
+                      return '#42b4b9';
+                  case 2:
+                      return 'green';
+
+                  case 3: //canceled
+                      return 'gray';
+                  default:
+                      return 'purple'; // Default color
+              }
+        },
+
         handleEventClick(arg){
-            console.log("in handle Event Select");
             // open modal with data set.
-            this.CalenderBeginTime = arg.event.startStr.slice(0,16); // There is also startSTR and start
-            this.CalenderEndTime = arg.event.endStr.slice(0,16);     //arg.el.fcSeg.end;// arg.event.end; //arg.el.fcSeg.end;
+            this.CalenderBeginTime = arg.event.startStr.slice(0,16);
+            this.CalenderEndTime = arg.event.endStr.slice(0,16);
             this.ParentEventId = arg.event.id;
             this.ParentEventStatus = arg.event.extendedProps.status;
             this.showModal = true;
@@ -89,6 +109,9 @@ export default {
             alert('Event: ' + info.event.title);
             alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
             alert('View: ' + info.view.type);
+        },
+        checkUserRole(){
+            router.get('/tutoring/update');
         }
     }
 }

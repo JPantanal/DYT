@@ -36,10 +36,6 @@ class Event extends Model
     }
 
 
-    public function create(request $request){
-    }
-
-
 
 
 

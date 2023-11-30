@@ -59,6 +59,13 @@ defineProps({
                 From the struggling grade schooler to AP, ACT, and SAT prep student. we can help you reach your goals. We source our tutors from professionals and
                 trained  educators who can get the job done.
             </p>
+            <p class="py-1 max-w-lg">
+                AI WROTE THIS BLOCK: Unlock your learning potential with Dayton's top-notch tutoring service, where academic excellence meets personalized instruction.
+                Our passionate tutors are dedicated to empowering students across Dayton, Ohio, with the tools and confidence to achieve their academic goals.
+                Whether you're struggling with math, science, or language arts, we provide a supportive environment that caters to all ages and learning styles.
+                Experience the difference with our proven strategies and become part of a community that celebrates knowledge and success. Join us today and take the
+                first step towards a brighter educational future!
+            </p>
             <div class="px-3 py-3">
                 <img src="Tutor1.jpeg" width="300"  alt="Tutor1" class="flex-justify-center">
                 <p class="text-center">

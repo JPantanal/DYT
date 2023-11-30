@@ -27,6 +27,9 @@ Route::get('/', function () {
     ]);
 });
 
+
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -35,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/role', [ProfileController::class, 'role'])->name('profile.role');
 });
 
 Route::resource('chirps', ChirpController::class)
@@ -52,7 +56,7 @@ Route::get('tutoring/tutorevents', [EventController::class, 'usersEvents'])->mid
 
 Route::get('calendar', [EventController::class, 'index']);
 
-Route::post('/tutoring/', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name("events.store");
+Route::post('/tutoring/store', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name("events.store");
 Route::post('/tutoring/update', [EventController::class, 'update'])->middleware(['auth', 'verified'])->name("events.update");
 
 //->where('id', '[0-9]+')

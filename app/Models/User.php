@@ -31,6 +31,8 @@ class User extends Authenticatable
         return $this->role == 'tutor';
     }
 
+
+
     public function chirps(): HasMany
     {
         return $this->hasMany(Chirp::class);
