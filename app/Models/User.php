@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
     public const ROLES = [
         'client' => 0,
         'tutor'  => 1,

@@ -41,14 +41,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/role', [ProfileController::class, 'role'])->name('profile.role');
 });
 
-Route::resource('chirps', ChirpController::class)
-    ->only(['index', 'store', 'update', 'destroy'])
-    ->middleware(['auth', 'verified']);
+//Route::resource('chirps', ChirpController::class)
+   // ->only(['index', 'store', 'update', 'destroy'])
+   // ->middleware(['auth', 'verified']);
 
 
-Route::resource('chirps', ChirpController::class)
-    ->only(['index', 'store', 'update', 'destroy'])
-    ->middleware(['auth', 'verified']);
+//Route::resource('chirps', ChirpController::class)
+   // ->only(['index', 'store', 'update', 'destroy'])
+   // ->middleware(['auth', 'verified']);
 
 Route::get('events', [EventController::class, 'index'])->middleware(['auth', 'verified'])->name("events.index");
 Route::get('tutoring/usersevents', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.usersEvents");
