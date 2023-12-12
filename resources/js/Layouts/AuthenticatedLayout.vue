@@ -1,13 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
-//import Calendar from "@/Pages/Calendar/Calendar.vue";
-//
 const showingNavigationDropdown = ref(false);
 </script>
 
@@ -21,11 +17,7 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
-                                    />
-                                </Link>
+
                             </div>
 
                             <!-- Navigation Links -->
@@ -141,10 +133,6 @@ const showingNavigationDropdown = ref(false);
                             <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                 Dashboard
                             </ResponsiveNavLink>
-
-                            <ResponsiveNavLink :href="route('events.index')" :active="route().current('chirps.index')">
-                                Calendar
-                            </ResponsiveNavLink>
                         </div>
                     </div>
                 </div>
@@ -162,5 +150,21 @@ const showingNavigationDropdown = ref(false);
                 <slot />
             </main>
         </div>
+        <footer class="bg-gray-200 text-gray-700 py-4 px-6">
+            <div class="container mx-auto flex justify-between items-center">
+                <div>
+                    <p>&copy; 2023 DaytonTutoring. All rights reserved.</p>
+                </div>
+                <div class="flex items-center ">
+                    <ResponsiveNavLink :href="route('PrivacyPolicy')" method="get" as="button" class="text-gray-600 hover:text-gray-900 whitespace-nowrap">
+                        Privacy Policy
+                    </ResponsiveNavLink>
+                    <span class="mx-2">|</span>
+                    <ResponsiveNavLink :href="route('TermsOfUse')" method="get" as="button" class="text-gray-600 hover:text-gray-900 whitespace-nowrap">
+                        Terms of Use
+                    </ResponsiveNavLink>
+                </div>
+            </div>
+        </footer>
     </div>
 </template>

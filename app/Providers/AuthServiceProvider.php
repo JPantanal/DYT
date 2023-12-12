@@ -30,11 +30,9 @@ class AuthServiceProvider extends ServiceProvider
         VerifyEmail::toMailusing(function(object $notifiable, string $url){
             return(new MailMessage)
                 ->greeting('Good Day!')
-            ->subject('Dayton Tutoring Email Verification')
-            ->line('Click the link below to verify your email address.')
-            ->action('Verify Email Address', $url)
-                ->salutation('Regards, \r\n Dayton Tutoring');
-
+                ->subject('Dayton Tutoring Email Verification')
+                ->line('Click the link below to verify your email address.')
+                ->action('Verify Email Address', $url);
         });
     }
 
