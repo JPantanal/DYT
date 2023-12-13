@@ -85,9 +85,9 @@ class EventController extends Controller
         $event = Event::find($request->localeventid);
         $event->startDateTime =$request->LocalBeginDateTime;
         $event->endDateTime =$request->LocalEndDateTime;
-        $event->tutor_id=1; //got to find the tutor ID!
+        $event->tutor_id=5; //got to find the tutor ID!
         $event->status =$request->status;
-        //$event->        = $request->notes;
+        $event->notes= $request->appointmentInfo;
         $event ->save();
         return to_route('events.index');
     }

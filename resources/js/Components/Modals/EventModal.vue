@@ -14,7 +14,8 @@ export default {
         eventStatus: {
             type: Number
         },
-        eventid: null
+        eventid: null,
+        notes: null
     },
     data(){
         return{ // Create a local copy of the form data
@@ -25,7 +26,6 @@ export default {
                 status:0,
                 appointmentInfo: "",
                 localeventid: null,
-                notes: null
             }),
             userRole: '0'
         }

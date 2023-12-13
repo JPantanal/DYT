@@ -22,7 +22,6 @@ return new class extends Migration
             $table->datetime('endDateTime');
             $table->integer('status');
             $table->timestamps();
-
         });
     }
 
