@@ -7,8 +7,7 @@ import EventModal from '/resources/js/Components/Modals/EventModal.vue'
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import interactionPlugin from '@fullcalendar/interaction';
 import {Head} from "@inertiajs/vue3";
-//import GetEventsFromDatabase from '/resources/js/Components/EventComponents/GetEventsFromDatabase.vue'
-import {router, useForm} from '@inertiajs/vue3'
+import {router} from '@inertiajs/vue3'
 
 import GetEventsFromDatabase from "../../Components/EventComponents/GetEventsFromDatabase.vue";
 
@@ -22,7 +21,6 @@ export default {
             AuthenticatedLayout,
             FullCalendar, // make the <FullCalendar> tag available
             GetEventsFromDatabase
-
         },
         data: function() {
         return {
@@ -32,14 +30,17 @@ export default {
                 plugins: [dayGridPlugin,timeGridPlugin, interactionPlugin ],
                 initialView: 'timeGridWeek',
                 weekends: true,
+                slotMinTime: "6:00:00",
+                slotMaxTime: "22:00:00",
+                slotDuration: '0:30:00',
+                allDaySlot: false,
                 dateClick: this.handleDateClick,
-                select: this.handleSelect,
-                //selectable: this.handleEventSelect,
                 eventClick: this.handleEventClick,
                 events: [
                     {
-                        title: 'Meeting',
-                        start: new Date(),
+                        title: null,
+                        start: null,
+                        end: null,
                         extendedProps: {
                             client_id: null,
                             created_at: null,
@@ -57,8 +58,8 @@ export default {
 
             },
             showModal: false,
-            CalenderBeginTime: '',
-            CalenderEndTime:'',
+            CalenderBeginTime: null,
+            CalenderEndTime: null,
             ParentEventId:null,
             ParentEventStatus: null
         }
@@ -66,13 +67,12 @@ export default {
     methods:{
         handleDateClick: function(arg){
             this.CalenderBeginTime = arg.date.toISOString().slice(0,16);
-            //add 1 hour
-            var addHour = new Date(arg.date);
+            var addHour = new Date(arg.date);  //add 1 hour
             addHour.setHours(addHour.getHours()+1);
             this.CalenderEndTime = addHour.toISOString().slice(0,16);
 
             this.ParentEventId = null;
-            this.ParentEventStatus = 0;
+            this.ParentEventStatus = 0; //unsent
             this.showModal = true;
         },
         handleEventsFetched(fetchedEvents) {
@@ -84,23 +84,25 @@ export default {
          getColorForStatus (status) {
               switch (status) {
                   case 0:
-                      return 'green';
+                      return 'black'; //unsent if you see a grey even there is a problem,
                   case 1:
-                      return '#42b4b9';
-                  case 2:
+                      return '#42b4b9'; //Pending
+                  case 2:  //Scheduled
                       return 'green';
-
-                  case 3: //canceled
-                      return 'gray';
-                  default:
+                  case 3:
+                      return 'gray'; //canceled
+                  case 4:
+                      return 'gray'; //bacgkround busy
+                      default:
                       return 'purple'; // Default color
               }
         },
 
         handleEventClick(arg){
             // open modal with data set.
-            this.CalenderBeginTime = arg.event.startStr.slice(0,16);
-            this.CalenderEndTime = arg.event.endStr.slice(0,16);
+            this.CalenderBeginTime = arg.event._instance.range.start.toISOString().slice(0,16);// arg.event.startStr.slice(0,16);
+            this.CalenderEndTime = arg.event._instance.range.end.toISOString().slice(0,16);   //arg.event.endStr.slice(0,16);
+
             this.ParentEventId = arg.event.id;
             this.ParentEventStatus = arg.event.extendedProps.status;
             this.showModal = true;
@@ -119,8 +121,8 @@ export default {
     <template>
         <Head title="DYTutoring Scheduling" />
         <Teleport to="body">
-            <!-- use the modal component, pass in the prop -->
-            <EventModal  :show="showModal" @close="showModal = false" :begin="CalenderBeginTime"  :end="CalenderEndTime" :eventid="ParentEventId"
+            <!-- use the eventModal component, pass in the prop -->
+            <EventModal  :show="showModal" @close="showModal = false" :begin="CalenderBeginTime" :end="CalenderEndTime" :eventid="ParentEventId"
                          :eventStatus="ParentEventStatus" >
                 <template #header>
                     <h3>Schedule Tutoring Session</h3>
@@ -129,8 +131,8 @@ export default {
                     <label for="beginDateTime">Begin Time</label>
                     <input id="beginDateTime" type ="datetime-local" v-model="CalenderBeginTime" >
                 </template>
-                <template v-slot:endTime>
-                    <label for="endDateTime">Begin Time</label>
+                <template v-slot:endTime ="endDateTime">
+                    <label for="endDateTime">End Time</label>
                     <input id="endDateTime" type ="datetime-local" v-model="CalenderEndTime" >
                 </template>
             </EventModal>
@@ -145,5 +147,9 @@ export default {
         </div>
         </authenticated-layout>
     </template>
-<style scoped>
+<style>
+
+.fc-event:hover {
+    cursor: pointer; /* Change to your preferred cursor style */
+}
 </style>

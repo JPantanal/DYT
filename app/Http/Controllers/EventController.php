@@ -27,7 +27,7 @@ class EventController extends Controller
         $user=auth()->user();
         if($user->role==0)
             $events = $user->clientevents()->get();
-        else
+        else if($user->role==1)
             $events = $user->tutorevents()->get();
 
         $events = str_replace("startDateTime", "start", json_encode($events));
@@ -87,6 +87,7 @@ class EventController extends Controller
         $event->endDateTime =$request->LocalEndDateTime;
         $event->tutor_id=1; //got to find the tutor ID!
         $event->status =$request->status;
+        //$event->        = $request->notes;
         $event ->save();
         return to_route('events.index');
     }

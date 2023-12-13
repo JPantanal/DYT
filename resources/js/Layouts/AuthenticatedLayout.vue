@@ -17,9 +17,7 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-
                             </div>
-
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
@@ -110,6 +108,9 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('events.index')" :active="route().current('events.index')">
+                            Calendar
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -120,18 +121,10 @@ const showingNavigationDropdown = ref(false);
                             </div>
                             <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
                         </div>
-
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 Log Out
-                            </ResponsiveNavLink>
-                        </div>
-
-                        <!-- JOHN ADD THIS DIV !-->
-                        <div class="pt-2 pb-3 space-y-1">
-                            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                Dashboard
                             </ResponsiveNavLink>
                         </div>
                     </div>
@@ -156,13 +149,13 @@ const showingNavigationDropdown = ref(false);
                     <p>&copy; 2023 DaytonTutoring. All rights reserved.</p>
                 </div>
                 <div class="flex items-center ">
-                    <ResponsiveNavLink :href="route('PrivacyPolicy')" method="get" as="button" class="text-gray-600 hover:text-gray-900 whitespace-nowrap">
+                    <nav-link :href="route('PrivacyPolicy')" method="get" as="button" class="text-gray-600 hover:text-gray-900 whitespace-nowrap">
                         Privacy Policy
-                    </ResponsiveNavLink>
+                    </nav-link>
                     <span class="mx-2">|</span>
-                    <ResponsiveNavLink :href="route('TermsOfUse')" method="get" as="button" class="text-gray-600 hover:text-gray-900 whitespace-nowrap">
+                    <nav-link :href="route('TermsOfUse')" method="get" as="button" class="text-gray-600 hover:text-gray-900 whitespace-nowrap">
                         Terms of Use
-                    </ResponsiveNavLink>
+                    </nav-link>
                 </div>
             </div>
         </footer>

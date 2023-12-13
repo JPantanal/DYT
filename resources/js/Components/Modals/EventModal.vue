@@ -1,6 +1,7 @@
 <script>
 import {router, useForm} from '@inertiajs/vue3'
 
+
 export default {
     props: {
         show: Boolean,
@@ -14,17 +15,17 @@ export default {
             type: Number
         },
         eventid: null
-
     },
     data(){
         return{ // Create a local copy of the form data
             form:useForm({
                 title: null,
-                LocalBeginDateTime:"",
+                LocalBeginDateTime:null,
                 LocalEndDateTime:null,
                 status:0,
                 appointmentInfo: "",
                 localeventid: null,
+                notes: null
             }),
             userRole: '0'
         }
@@ -35,6 +36,7 @@ export default {
             return this.$page.props.auth.user.role === 1;
         }
     },
+    emits: ['close'],
 
     watch: {
         // Watch for changes in the prop value and update  accordingly
@@ -50,7 +52,6 @@ export default {
         eventStatus(newValue){
             this.form.status = newValue;
         }
-
     },
 
     methods: {
@@ -63,26 +64,38 @@ export default {
 
             else{
                 router.post('/tutoring/update' , this.form, {preserveState: false });
-
             }
 
         },
-//this.form.localeventid
+         closeOnEscape(keyboardEvent) {
+            if (keyboardEvent.key === 'Escape' && this.show) {
+                this.close();
+            }
+        },
+        close(){
+            this.$emit('close');
+        },
         beforeSubmit(newValue) {
-            this.form.status =newValue;
+            this.form.status = newValue;
             this.handleSubmit();
         },
-    }
+    },
+    mounted() {
+        document.addEventListener('keydown', this.closeOnEscape);
+    },
+    beforeUnmount() {
+        window.removeEventListener('keydown', this.closeOnEscape);
+    },
 }
 
 </script>
 
 <template>
     <Transition name="modal">
-        <div v-if="show" class="modal-mask">
-            <div class="modal-container">
-                <form @submit.prevent="handleSubmit">
-                    <button class="modal-close"  type ="button" @click="$emit('close')">X</button>
+        <div v-if="show" class="modal-mask" >
+            <div class="modal-container"  >
+                <form @submit.prevent="handleSubmit" >
+                    <button class="modal-close"  type ="button"  @click="$emit('close')" >X</button>
                     <div class="modal-header">
                         <slot name="header">Modal Header</slot>
                     </div>
@@ -144,6 +157,7 @@ export default {
                 </form>
         </div>
         </div>
+
     </Transition>
 </template>
 
