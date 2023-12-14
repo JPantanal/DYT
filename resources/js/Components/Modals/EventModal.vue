@@ -2,6 +2,7 @@
 import {router, useForm} from '@inertiajs/vue3'
 
 
+
 export default {
     props: {
         show: Boolean,
@@ -21,10 +22,10 @@ export default {
         return{ // Create a local copy of the form data
             form:useForm({
                 title: null,
-                LocalBeginDateTime:null,
-                LocalEndDateTime:null,
+                LocalBeginDateTime: null,
+                LocalEndDateTime: null,
                 status:0,
-                appointmentInfo: "",
+                appointmentInfo: null,
                 localeventid: null,
             }),
             userRole: '0'
@@ -51,6 +52,9 @@ export default {
         },
         eventStatus(newValue){
             this.form.status = newValue;
+        },
+        notes(newValue){
+            this.form.appointmentInfo = newValue;
         }
     },
 

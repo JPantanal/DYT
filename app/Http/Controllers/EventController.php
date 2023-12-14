@@ -81,7 +81,6 @@ class EventController extends Controller
             // Handle the failed validation
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
         $event = Event::find($request->localeventid);
         $event->startDateTime =$request->LocalBeginDateTime;
         $event->endDateTime =$request->LocalEndDateTime;
@@ -89,7 +88,7 @@ class EventController extends Controller
         $event->status =$request->status;
         $event->notes= $request->appointmentInfo;
         $event ->save();
-        return to_route('events.index');
+       return to_route('events.index');
     }
 
 
@@ -108,6 +107,7 @@ class EventController extends Controller
         $event->client_id= auth()->user()->id;
         $event->tutor_id=5; //got to find the tutor ID!
         $event->status =$request->status; //This should alwys be 0 //pending.
+        $event->notes= $request->appointmentInfo;
         $event ->save();
         return to_route('events.index');
         //return Inertia::render('events');  //uncaught promise exception

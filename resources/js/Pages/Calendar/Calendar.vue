@@ -46,7 +46,8 @@ export default {
                             created_at: null,
                             status: null,
                             tutor_id: null,
-                            updated_at:null
+                            updated_at:null,
+                            notes: null
                         }
                     }
                 ],
@@ -55,22 +56,23 @@ export default {
                     center: 'title',
                     right: 'dayGridMonth timeGridWeek timeGridDay'
                 },
-
             },
             showModal: false,
             CalenderBeginTime: null,
             CalenderEndTime: null,
             ParentEventId:null,
-            ParentEventStatus: null
+            ParentEventStatus: null,
+            ParentNotes: null
+
         }
     },
     methods:{
         handleDateClick: function(arg){
-            this.CalenderBeginTime = arg.date.toISOString().slice(0,16);
+        this.CalenderBeginTime = arg.date.toISOString().slice(0,16);
             var addHour = new Date(arg.date);  //add 1 hour
             addHour.setHours(addHour.getHours()+1);
             this.CalenderEndTime = addHour.toISOString().slice(0,16);
-
+            this.ParentNotes = null;
             this.ParentEventId = null;
             this.ParentEventStatus = 0; //unsent
             this.showModal = true;
@@ -102,7 +104,7 @@ export default {
             // open modal with data set.
             this.CalenderBeginTime = arg.event._instance.range.start.toISOString().slice(0,16);// arg.event.startStr.slice(0,16);
             this.CalenderEndTime = arg.event._instance.range.end.toISOString().slice(0,16);   //arg.event.endStr.slice(0,16);
-
+            this.ParentNotes = arg.event.extendedProps.notes
             this.ParentEventId = arg.event.id;
             this.ParentEventStatus = arg.event.extendedProps.status;
             this.showModal = true;
@@ -123,7 +125,7 @@ export default {
         <Teleport to="body">
             <!-- use the eventModal component, pass in the prop -->
             <EventModal  :show="showModal" @close="showModal = false" :begin="CalenderBeginTime" :end="CalenderEndTime" :eventid="ParentEventId"
-                         :eventStatus="ParentEventStatus" >
+                         :eventStatus="ParentEventStatus"  :notes="ParentNotes">
                 <template #header>
                     <h3>Schedule Tutoring Session</h3>
                 </template>
