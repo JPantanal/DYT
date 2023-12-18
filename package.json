@@ -29,6 +29,7 @@
         "@fullcalendar/list": "^6.1.8",
         "@fullcalendar/timegrid": "^6.1.8",
         "@fullcalendar/vue3": "^6.1.8",
+        "@paypal/paypal-js": "^7.1.1",
         "dayjs": "^1.11.9",
         "esbuild": "^0.18.9",
         "vue-full-calendar": "^3.0.0"

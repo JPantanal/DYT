@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -41,14 +42,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/role', [ProfileController::class, 'role'])->name('profile.role');
 });
 
-//Route::resource('chirps', ChirpController::class)
-   // ->only(['index', 'store', 'update', 'destroy'])
-   // ->middleware(['auth', 'verified']);
-
-
-//Route::resource('chirps', ChirpController::class)
-   // ->only(['index', 'store', 'update', 'destroy'])
-   // ->middleware(['auth', 'verified']);
 
 Route::get('events', [EventController::class, 'index'])->middleware(['auth', 'verified'])->name("events.index");
 Route::get('tutoring/usersevents', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.usersEvents");
@@ -65,5 +58,9 @@ Route::get('/PrivacyPolicy', function () {
 Route::get('/TermsOfUse', function () {
     return Inertia::render('TermsOfUse');
 })->middleware(['auth', 'verified'])->name('TermsOfUse');
+
+Route::get('payment', [PaymentController::class, 'index'])->middleware(['auth', 'verified'])->name('payments.index');
+//Route::get('payments', [PaymentController::class, 'index'])->middleware(['auth', 'verified'])->name('payments.index');
+
 
 require __DIR__.'/auth.php';

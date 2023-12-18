@@ -26,6 +26,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('events.index')" :active="route().current('events.index')">
                                     Calendar
                                 </NavLink>
+                                <NavLink :href="route('payments.index')" :active="route().current('payments.index')">
+                                    Payments
+                                </NavLink>
                             </div>
                         </div>
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -110,6 +113,9 @@ const showingNavigationDropdown = ref(false);
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('events.index')" :active="route().current('events.index')">
                             Calendar
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('payments.index')" :active="route().current('payments.index')">
+                            Payments
                         </ResponsiveNavLink>
                     </div>
 
