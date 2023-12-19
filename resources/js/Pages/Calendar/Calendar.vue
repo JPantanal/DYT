@@ -36,6 +36,23 @@ export default {
                 allDaySlot: false,
                 dateClick: this.handleDateClick,
                 eventClick: this.handleEventClick,
+                customButtons: {
+                    NextTutor: {
+                        text: 'Next Tutor',
+                        click: function() {
+                            this.loadCalendarEvents('NextUser');
+                            alert('clicked the custom button!');
+                        },
+                        next: 'chevron-right',
+                    },
+                    PrevTutor: {
+                        text: 'Prev Tutor',
+                        click: function() {
+                            loadCalendarEvents('NextUser');
+                        },
+                        next: 'chevron-right',
+                    }
+                },
                 events: [
                     {
                         title: null,
@@ -52,7 +69,7 @@ export default {
                     }
                 ],
                 headerToolbar: {
-                    left: 'prev,next today',
+                    left: 'prev,next today PrevTutor NextTutor',
                     center: 'title',
                     right: 'dayGridMonth timeGridWeek timeGridDay'
                 },
@@ -63,7 +80,6 @@ export default {
             ParentEventId:null,
             ParentEventStatus: null,
             ParentNotes: null
-
         }
     },
     methods:{
@@ -116,6 +132,8 @@ export default {
         },
         checkUserRole(){
             router.get('/tutoring/update');
+        },
+        loadCalendarEvents(){
         }
     }
 }
