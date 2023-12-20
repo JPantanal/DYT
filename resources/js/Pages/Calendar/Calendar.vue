@@ -79,7 +79,8 @@ export default {
         },
         handleEventsFetched(fetchedEvents) {
             fetchedEvents = fetchedEvents.map(event => ({...event,
-                color: this.getColorForStatus(event.status)
+                color: this.getColorForStatus(event.status),
+                display: event.status == 4 ? 'background' : 'auto'
             }));
             this.calendarOptions.events = fetchedEvents;
         },
@@ -94,7 +95,7 @@ export default {
                   case 3:
                       return 'gray'; //canceled
                   case 4:
-                      return 'gray'; //bacgkround busy
+                      return 'gray'; //UNAVAILABLE
                       default:
                       return 'purple'; // Default color
               }
@@ -109,11 +110,6 @@ export default {
             this.ParentEventStatus = arg.event.extendedProps.status;
             this.showModal = true;
         },
-        eventClick(info) {
-            alert('Event: ' + info.event.title);
-            alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-            alert('View: ' + info.view.type);
-        },
         checkUserRole(){
             router.get('/tutoring/update');
         }
@@ -125,9 +121,9 @@ export default {
         <Teleport to="body">
             <!-- use the eventModal component, pass in the prop -->
             <EventModal  :show="showModal" @close="showModal = false" :begin="CalenderBeginTime" :end="CalenderEndTime" :eventid="ParentEventId"
-                         :eventStatus="ParentEventStatus"  :notes="ParentNotes">
+                         :eventStatus="ParentEventStatus" :notes="ParentNotes">
                 <template #header>
-                    <h3>Schedule Tutoring Session</h3>
+                    <h3 class="flex justify-center items-center" >Schedule</h3>
                 </template>
                 <template v-slot:beginTime="beginDateTime">
                     <label for="beginDateTime">Begin Time</label>

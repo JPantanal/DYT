@@ -8,5 +8,5 @@ enum EventStateEnum: int
     case PENDING = 1;
     case SCHEDULED = 2;
     CASE CANCELED = 3;
-
+    CASE UNAVAILABLE = 4;
 }

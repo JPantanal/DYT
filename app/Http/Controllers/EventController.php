@@ -6,11 +6,13 @@ use http\Client\Curl\User;
 use http\Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use App\Models\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 
 class EventController extends Controller
@@ -67,28 +69,48 @@ class EventController extends Controller
     public function update(Request $request)
     {
         $validator= Validator::make($request->all(),
-            ['status' => 'required|numeric|',
-                function ($attribute, $value, $fail) {
-                if ($value == 2 && auth()->user()->role != 1) {
-                    $fail('The ' . $attribute . ' is invalid because your role must be 1.');
-                    }
-                },
-            ],
-        // ... other fields and rules
+                ['status' => [
+                    'required',
+                    'numeric',
+                    function ($attribute, $value, $fail) {
+                    if ($value == 2 && auth()->user()->role != 1) {    //todo test this
+                        $fail('The ' . $attribute . ' is invalid because your role must be 1.');
+                        }
+                    }],
+                    'clientID' => [
+                        'required_without:tutorID',
+                        'numeric',
+                        function ($attribute, $value, $fail) use ($request) {
+                            if ($value != Auth::id() && $request->input('tutorID') != Auth::id()) {
+                                $fail('Neither clientID nor tutorID matches the logged-in user.');
+                            }
+                        }],
+                    'tutorID' => [
+                        'required_without:clientID',
+                        'numeric',
+                        function ($attribute, $value, $fail) use ($request) {
+                            if ($value != Auth::id() && $request->input('clientID') != Auth::id()) {
+                                $fail('Neither clientID nor tutorID matches the logged-in user.');
+                            }
+                        },
+                    ],
+                    // ... other fields and rules
+        ]);
 
-        );
         if ($validator->fails()) {
             // Handle the failed validation
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $event = Event::find($request->localeventid);
+        $event = Event::find($request->eventid);
         $event->startDateTime =$request->LocalBeginDateTime;
         $event->endDateTime =$request->LocalEndDateTime;
         $event->tutor_id=5; //got to find the tutor ID!
         $event->status =$request->status;
         $event->notes= $request->appointmentInfo;
+        $event->customClient = $request->customClient;
         $event ->save();
-       return to_route('events.index');
+
+        return to_route('events.index');
     }
 
 
@@ -100,17 +122,63 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+        $validator= Validator::make($request->all(),
+            ['status' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if ($value == 2 && auth()->user()->role != 1) {    //todo test this
+                        $fail('The ' . $attribute . ' is invalid because your role must be 1.');
+                    }
+                }],
+                'clientID' => [
+                    'required_without:tutorID',
+                    'numeric',
+                    function ($attribute, $value, $fail) use ($request) {
+                        if ($value != Auth::id() && $request->input('tutorID') != Auth::id()) {
+                            $fail('Neither clientID nor tutorID matches the logged-in user.');
+                        }
+                    }],
+                'tutorID' => [
+                    'required_without:clientID',
+                    'numeric',
+                    function ($attribute, $value, $fail) use ($request) {
+                        if ($value != Auth::id() && $request->input('clientID') != Auth::id()) {
+                            $fail('Neither clientID nor tutorID matches the logged-in user.');
+                        }
+                    },
+                ],
+            ]);
+        if ($validator->fails()) {
+            // Handle the failed validation
+            return redirect()->back()->withErrors($validator)->withInput()->with('error','Issue saving out: ');
+        }
         $event = new Event;
-        $event->title = "Tutoring Session";
-        $event->startDateTime =$request->LocalBeginDateTime;
-        $event->endDateTime =$request->LocalEndDateTime;
-        $event->client_id= auth()->user()->id;
-        $event->tutor_id=5; //got to find the tutor ID!
-        $event->status =$request->status; //This should alwys be 0 //pending.
-        $event->notes= $request->appointmentInfo;
-        $event ->save();
-        return to_route('events.index');
-        //return Inertia::render('events');  //uncaught promise exception
+
+        if($request->status == 4){
+            $event->title = "Unavailable";
+        }
+        if($request->status == 1){
+            $event->title = "Pending";
+        }
+        if($request->status == 2){
+            $event->title = "Scheduled";
+        }
+        if($request->status == 3){
+            $event->title = "Cancelled";
+        }
+        //$event->title = "Tutoring Session";
+        $event->startDateTime = $request->LocalBeginDateTime;
+        $event->endDateTime = $request->LocalEndDateTime;
+        $event->client_id = auth()->user()->id;  //TODO
+        $event->tutor_id = 5; //got to find the tutor ID!
+        $event->status = $request->status; //App\Enums;
+        $event->notes = $request->appointmentInfo;
+        $event->customClient = $request->customClient;
+        $event->save();
+       //return to_route('events.index');
+        return Redirect::route('events.index')->with('success','submission saved');
+        //return Inertia::render('events.index');  // Doesn't cause reload
     }
 
     /**
