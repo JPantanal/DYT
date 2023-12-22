@@ -44,7 +44,11 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('events', [EventController::class, 'index'])->middleware(['auth', 'verified'])->name("events.index");
-Route::get('tutoring/usersevents', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.usersEvents");
+Route::get('events/getEvents', [EventController::class, 'getEvents'])->middleware(['auth', 'verified'])->name("events.getEvents");
+Route::get('events/getEvents/role', [EventController::class, 'getEvents'])->middleware(['auth', 'verified'])->name("events.getEvents");
+
+Route::get('events?1', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.usersEvents");
+
 Route::get('tutoring/tutorevents', [EventController::class, 'usersEvents'])->middleware(['auth', 'verified'])->name("events.tutorEvents");
 
 Route::get('calendar', [EventController::class, 'index']);

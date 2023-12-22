@@ -6,10 +6,10 @@ export default {
         return{
             events:[]
         }
-    },
+    },   //`/events?role=${page.props.auth.user.role}
     methods: {
         fetchEvents() {
-            fetch('/tutoring/usersevents')
+            fetch(`/events/getEvents`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error fetching events');

@@ -25,7 +25,7 @@ class EventController extends Controller
        return Inertia::render('Calendar/Calendar');
     }
 
-    public function usersevents(Request $request){
+    public function getEvents(Request $request){
         $user=auth()->user();
         if($user->role==0)
             $events = $user->clientevents()->get();
