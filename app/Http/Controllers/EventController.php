@@ -151,28 +151,33 @@ class EventController extends Controller
             ]);
         if ($validator->fails()) {
             // Handle the failed validation
-            return redirect()->back()->withErrors($validator)->withInput()->with('error','Issue saving out: ');
+            return redirect()->back()->withErrors($validator)->withInput()->with('message','Issue saving out: ');
         }
         $event = new Event;
+        if($request->status == 0){     //new submission
+            $event-> status = 1;
+            $event->title = "Pending Acceptance";
+        }
 
-        if($request->status == 4){
-            $event->title = "Unavailable";
-        }
-        if($request->status == 1){
-            $event->title = "Pending";
-        }
+    //    if($request->status == 1){  //not sure about this, seems wrong. should be an update
+       //     $event->title = "Pending";
+     //   }
         if($request->status == 2){
             $event->title = "Scheduled";
         }
         if($request->status == 3){
             $event->title = "Cancelled";
         }
+        if($request->status == 4){
+            $event->title = "Unavailable";
+        }
+
         //$event->title = "Tutoring Session";
         $event->startDateTime = $request->LocalBeginDateTime;
         $event->endDateTime = $request->LocalEndDateTime;
         $event->client_id = auth()->user()->id;  //TODO
         $event->tutor_id = 5; //got to find the tutor ID!
-        $event->status = $request->status; //App\Enums;
+       // $event->status = $request->status; //App\Enums;
         $event->notes = $request->appointmentInfo;
         $event->customClient = $request->customClient;
         $event->save();

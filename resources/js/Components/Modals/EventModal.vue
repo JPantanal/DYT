@@ -2,11 +2,10 @@
 import {router, useForm} from '@inertiajs/vue3'
 import TextInput from "@/Components/TextInput.vue";
 import { ref } from 'vue';
-
-
+import Toast from "@/Components/Toast.vue";
 
 export default {
-    components: {TextInput},
+    components: {Toast, TextInput},
     props: {
         show: Boolean,
         begin: {
@@ -20,6 +19,7 @@ export default {
         },
         eventid: null,
         notes: null,
+        tutorID: 5
     },
     data(){
         return{ // Create a local copy of the form data
@@ -27,12 +27,12 @@ export default {
                 title: null,
                 LocalBeginDateTime: null,
                 LocalEndDateTime: null,
-                status:0,
+                status:null,
                 appointmentInfo: null,
                 eventID: null,
                 customClient:null,
                 clientID: this.$page.props.auth.user.id,
-                tutorID: null,
+                tutorID: 5,
             }),
             userRole: '0',
             type: 'Availibility',
@@ -68,12 +68,16 @@ export default {
             if(this.form.eventID== null)
             {
                 if(this.form.status == 0){
-                    this.form.status = 1;
+                    //this.form.status = 1;
+                    router.post('/tutoring/store', this.form,{
+                        onSuccess: () => {
+                            router.visit('/events', { preserveState: false });
+                        }
+                    });
                 }
-                router.post('/tutoring/store', this.form, {preserveState: false });
             }
             else{
-                router.post('/tutoring/update' , this.form, {preserveState: false });
+                router.post('/tutoring/update' , this.form, {preserveState: true });
             }
         },
          closeOnEscape(keyboardEvent) {
@@ -186,14 +190,10 @@ export default {
                             </div>
                         </div>
                     </div>
+                    <toast v-if="$page.props.flash.success" :message="$page.props.flash.success" />
                 </form>
-                <div v-if="this.$page.props.flash.error" class="alert">
-                    {{ $page.props.errors}}
-                </div>
-
             </div>
         </div>
-
     </Transition>
 </template>
 

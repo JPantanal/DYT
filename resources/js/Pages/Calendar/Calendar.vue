@@ -8,6 +8,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import interactionPlugin from '@fullcalendar/interaction';
 import {Head} from "@inertiajs/vue3";
 import {router} from '@inertiajs/vue3'
+import Toast from '@/Components/Toast.vue';
 
 import GetEventsFromDatabase from "../../Components/EventComponents/GetEventsFromDatabase.vue";
 
@@ -20,7 +21,8 @@ export default {
             EventModal,
             AuthenticatedLayout,
             FullCalendar, // make the <FullCalendar> tag available
-            GetEventsFromDatabase
+            GetEventsFromDatabase,
+            Toast
         },
         data: function() {
         return {
@@ -38,19 +40,9 @@ export default {
                 eventClick: this.handleEventClick,
                 events: [
                     {
-                        title: null,
-                        start: null,
-                        end: null,
-                        extendedProps: {
-                            client_id: null,
-                            created_at: null,
-                            status: null,
-                            tutor_id: null,
-                            updated_at:null,
-                            notes: null
-                        }
                     }
                 ],
+                eventContent: this.renderEventContent,
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
@@ -63,7 +55,6 @@ export default {
             ParentEventId:null,
             ParentEventStatus: null,
             ParentNotes: null
-
         }
     },
     methods:{
@@ -80,7 +71,8 @@ export default {
         handleEventsFetched(fetchedEvents) {
             fetchedEvents = fetchedEvents.map(event => ({...event,
                 color: this.getColorForStatus(event.status),
-                display: event.status == 4 ? 'background' : 'auto'
+                display: event.status == 4 ? 'background' : 'auto',
+                description: event.client_id + " with " + event.tutor_id
             }));
             this.calendarOptions.events = fetchedEvents;
         },
@@ -112,7 +104,17 @@ export default {
         },
         checkUserRole(){
             router.get('/tutoring/update');
-        }
+        },
+        renderEventContent(eventInfo) {
+            return {
+                html: `
+        <div>
+          <b>${eventInfo.event.title}</b>
+          <p>${eventInfo.event.extendedProps.description}</p>
+        </div>
+      `
+            };
+        },
     }
 }
 </script>
