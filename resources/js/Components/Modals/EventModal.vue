@@ -1,9 +1,11 @@
 <script>
 import {router, useForm} from '@inertiajs/vue3'
-
-
+import TextInput from "@/Components/TextInput.vue";
+import { ref } from 'vue';
+import Toast from "@/Components/Toast.vue";
 
 export default {
+    components: {Toast, TextInput},
     props: {
         show: Boolean,
         begin: {
@@ -16,7 +18,8 @@ export default {
             type: Number
         },
         eventid: null,
-        notes: null
+        notes: null,
+        tutorID: 5
     },
     data(){
         return{ // Create a local copy of the form data
@@ -24,11 +27,15 @@ export default {
                 title: null,
                 LocalBeginDateTime: null,
                 LocalEndDateTime: null,
-                status:0,
+                status:null,
                 appointmentInfo: null,
-                localeventid: null,
+                eventID: null,
+                customClient:null,
+                clientID: this.$page.props.auth.user.id,
+                tutorID: 5,
             }),
-            userRole: '0'
+            userRole: '0',
+            type: 'Availibility',
         }
     },
     computed: {
@@ -38,7 +45,6 @@ export default {
         }
     },
     emits: ['close'],
-
     watch: {
         // Watch for changes in the prop value and update  accordingly
         begin(newValue) {
@@ -48,7 +54,7 @@ export default {
             this.form.LocalEndDateTime = newValue;
         },
         eventid(newValue){
-            this.form.localeventid = newValue;
+            this.form.eventID = newValue;
         },
         eventStatus(newValue){
             this.form.status = newValue;
@@ -57,19 +63,22 @@ export default {
             this.form.appointmentInfo = newValue;
         }
     },
-
     methods: {
         handleSubmit(){
-            if(this.form.localeventid== null)
+            if(this.form.eventID== null)
             {
-                this.form.status = 1;
-                router.post('/tutoring/store', this.form, {preserveState: false });
+                if(this.form.status == 0){
+                    //this.form.status = 1;
+                    router.post('/tutoring/store', this.form,{
+                        onSuccess: () => {
+                            router.visit('/events', { preserveState: false });
+                        }
+                    });
+                }
             }
-
             else{
-                router.post('/tutoring/update' , this.form, {preserveState: false });
+                router.post('/tutoring/update' , this.form, {preserveState: true });
             }
-
         },
          closeOnEscape(keyboardEvent) {
             if (keyboardEvent.key === 'Escape' && this.show) {
@@ -104,6 +113,13 @@ export default {
                         <slot name="header">Modal Header</slot>
                     </div>
                     <div class="modal-body">
+                        <div v-if="isTutor">
+                            <p>Type</p>
+                            <select v-model="type">
+                                <option value="Availibility">Unavailable</option>
+                                <option value="Scheduling">Scheduling</option>
+                            </select>
+                        </div>
                             <div>
                              <slot name="beginTime" > <label>Begin Time</label>
                                  <input type="datetime-local"  v-model="form.LocalBeginDateTime" >
@@ -112,21 +128,38 @@ export default {
                             <div>
                                <slot name="endTime" >
                                    <label for="endDateTime">End Time</label>
-                                   <input type="datetime-local"  v-model="form.LocalEndDateTime" >
+                                   <input type="datetime-local" v-model="form.LocalEndDateTime" >
                                    <div v-if="endDateTime===null"> You need to put an end date. </div>
                                </slot>
                             </div>
                             <div>
-                                <label>Is there anything you would like to add</label>
+                                <label>Notes</label>
                                 <textarea id ="myTextArea" rows="4" cols="23" v-model="form.appointmentInfo"> </textarea>
                             </div>
-
-                        <div v-if="form.status ===0">
+                        <div v-if="form.status === 0 && !isTutor">
                             <label>Status: Unsent</label>
                             <div class="modal-footer">
-                                <button v-if="form.localeventid==null" class="modal-test-button hover:text-gray-900"  type="submit" :disabled="form.processing">Submit</button>
+                                <button v-if="form.eventid==null" class="modal-test-button hover:text-gray-900"  type="submit" :disabled="form.processing">Submit</button>
                                 <button v-else class="modal-test-button  hover:text-gray-900"   type="submit" :disabled="form.processing">Submit</button>
                                 <button class="modal-default-button hover:text-gray-900"  type ="button" @click="$emit('close')"> Close</button>
+                            </div>
+                        </div>
+                        <div v-if="form.status === 0 && isTutor && type=='Availibility'">    <!--TODO: buttons show up for certain areas could get confusing with combinations -->
+                            <label class="status-field">Status: Unsent</label>
+                            <div class="modal-footer ">
+                                <button class="modal-test-button hover:text-gray-900" type="button" @click="beforeSubmit(4)" :disabled="form.processing">Submit</button>
+                                <button class="modal-default-button hover:text-gray-900 button-right" type="button" @click="$emit('close')" :disabled="form.processing">Cancel</button>
+                            </div>
+                        </div>
+                        <div v-else-if="form.status === 0 && isTutor && type=='Scheduling'">
+                            <label class="status-field">Status: Unsent</label>
+                             <div>
+                                 <label class="status-field">Client: {{}}</label><!--Not working right-->
+                                 <input type="text" v-model="form.customClient" required>
+                             </div>                                               <!--TODO: schedule with other clients, custom name, search for client-->
+                            <div class="modal-footer ">
+                                <button class="modal-test-button hover:text-gray-900" type="button" @click="beforeSubmit(2)" :disabled="form.processing">Submit</button>
+                                <button class="modal-default-button hover:text-gray-900 button-right" type="button" @click="$emit('close')" :disabled="form.processing">Cancel</button>
                             </div>
                         </div>
                         <div v-if="form.status === 1 && isTutor">    <!--TODO: buttons show up for certain areas could get confusing with combinations -->
@@ -143,7 +176,6 @@ export default {
                                 <button class="modal-default-button hover:text-gray-900 button-right" type="button" @click="beforeSubmit(3)" :disabled="form.processing">Cancel Pending Session  </button>
                             </div>
                         </div>
-
                         <div v-if="form.status === 2">
                             <label>Status: Scheduled</label>
                             <div class="modal-footer">
@@ -158,10 +190,10 @@ export default {
                             </div>
                         </div>
                     </div>
+                    <toast v-if="$page.props.flash.success" :message="$page.props.flash.success" />
                 </form>
+            </div>
         </div>
-        </div>
-
     </Transition>
 </template>
 

@@ -8,6 +8,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import interactionPlugin from '@fullcalendar/interaction';
 import {Head} from "@inertiajs/vue3";
 import {router} from '@inertiajs/vue3'
+import Toast from '@/Components/Toast.vue';
 
 import GetEventsFromDatabase from "../../Components/EventComponents/GetEventsFromDatabase.vue";
 
@@ -20,7 +21,8 @@ export default {
             EventModal,
             AuthenticatedLayout,
             FullCalendar, // make the <FullCalendar> tag available
-            GetEventsFromDatabase
+            GetEventsFromDatabase,
+            Toast
         },
         data: function() {
         return {
@@ -38,19 +40,9 @@ export default {
                 eventClick: this.handleEventClick,
                 events: [
                     {
-                        title: null,
-                        start: null,
-                        end: null,
-                        extendedProps: {
-                            client_id: null,
-                            created_at: null,
-                            status: null,
-                            tutor_id: null,
-                            updated_at:null,
-                            notes: null
-                        }
                     }
                 ],
+                eventContent: this.renderEventContent,
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
@@ -63,7 +55,6 @@ export default {
             ParentEventId:null,
             ParentEventStatus: null,
             ParentNotes: null
-
         }
     },
     methods:{
@@ -79,7 +70,9 @@ export default {
         },
         handleEventsFetched(fetchedEvents) {
             fetchedEvents = fetchedEvents.map(event => ({...event,
-                color: this.getColorForStatus(event.status)
+                color: this.getColorForStatus(event.status),
+                display: event.status == 4 ? 'background' : 'auto',
+                description: event.client_id + " with " + event.tutor_id
             }));
             this.calendarOptions.events = fetchedEvents;
         },
@@ -94,7 +87,7 @@ export default {
                   case 3:
                       return 'gray'; //canceled
                   case 4:
-                      return 'gray'; //bacgkround busy
+                      return 'gray'; //UNAVAILABLE
                       default:
                       return 'purple'; // Default color
               }
@@ -109,14 +102,19 @@ export default {
             this.ParentEventStatus = arg.event.extendedProps.status;
             this.showModal = true;
         },
-        eventClick(info) {
-            alert('Event: ' + info.event.title);
-            alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-            alert('View: ' + info.view.type);
-        },
         checkUserRole(){
             router.get('/tutoring/update');
-        }
+        },
+        renderEventContent(eventInfo) {
+            return {
+                html: `
+        <div>
+          <b>${eventInfo.event.title}</b>
+          <p>${eventInfo.event.extendedProps.description}</p>
+        </div>
+      `
+            };
+        },
     }
 }
 </script>
@@ -125,9 +123,9 @@ export default {
         <Teleport to="body">
             <!-- use the eventModal component, pass in the prop -->
             <EventModal  :show="showModal" @close="showModal = false" :begin="CalenderBeginTime" :end="CalenderEndTime" :eventid="ParentEventId"
-                         :eventStatus="ParentEventStatus"  :notes="ParentNotes">
+                         :eventStatus="ParentEventStatus" :notes="ParentNotes">
                 <template #header>
-                    <h3>Schedule Tutoring Session</h3>
+                    <h3 class="flex justify-center items-center" >Schedule</h3>
                 </template>
                 <template v-slot:beginTime="beginDateTime">
                     <label for="beginDateTime">Begin Time</label>
