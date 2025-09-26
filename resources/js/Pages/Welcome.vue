@@ -1,7 +1,8 @@
 <script setup>
 
 import { Head, Link } from '@inertiajs/vue3';
-import image from '/home/john/Desktop/PhpstormProjects/DYTutoring/public/Tutor1.jpeg'
+import image from "../Components/images/Jaguarundi.jpg";
+
 defineProps({
     canLogin: {
         type: Boolean,
