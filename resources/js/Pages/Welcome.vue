@@ -2,14 +2,10 @@
 
 import { Head, Link } from '@inertiajs/vue3';
 import image from "../Components/images/Jaguarundi.jpg";
+import FormFile from '@/Components/ContactForm.vue';
+import HeaderFile from '@/Components/Header.vue';
 
 defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
     laravelVersion: {
         type: String,
         required: true,
@@ -23,32 +19,12 @@ defineProps({
 
 <template>
     <Head title="Dayton Tutoring" />
+    <HeaderFile/>
 
-    <div
-        class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white"
-    >
-        <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
-            <Link
-                v-if="$page.props.auth.user"
-                :href="route('dashboard')"
-                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                >Dashboard</Link
-            >
+    <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen">
 
-            <template v-else>
-                <Link
-                    :href="route('login')"
-                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Log in</Link
-                >
-
-                <Link
-                    v-if="canRegister"
-                    :href="route('register')"
-                    class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Register</Link
-                >
-            </template>
+        <div>
+            
         </div>
 
         <div class="max-w-7xl p-6 lg:p-8">
@@ -56,12 +32,12 @@ defineProps({
                 <div>Dayton Tutoring</div>
             </div>
             <p class = "py-1 max-w-lg ">
-                Dayton Tutoring is a Dayton based tutoring service offering online and in person tutoring to cater to you tutoring needs.
+                Dayton Tutoring is a Dayton, Ohio based tutoring service offering online and in person tutoring to cater to your tutoring needs.
                 From the struggling grade schooler to AP, ACT, and SAT prep student. we can help you reach your goals. We source our tutors from professionals and
                 trained  educators who can get the job done.
             </p>
             <p class="py-1 max-w-lg">
-                AI WROTE THIS BLOCK: Unlock your learning potential with Dayton's top-notch tutoring service, where academic excellence meets personalized instruction.
+                Unlock your learning potential with Dayton's top-notch tutoring service, where academic excellence meets personalized instruction.
                 Our passionate tutors are dedicated to empowering students across Dayton, Ohio, with the tools and confidence to achieve their academic goals.
                 Whether you're struggling with math, science, or language arts, we provide a supportive environment that caters to all ages and learning styles.
                 Experience the difference with our proven strategies and become part of a community that celebrates knowledge and success. Join us today and take the
@@ -87,7 +63,9 @@ defineProps({
                 </p>
             </div>
         </div>
+      
     </div>
+      <FormFile /> 
 </template>
 
 <style>
