@@ -9,9 +9,9 @@
     "require": {
         "php": ">=8.4",
         "guzzlehttp/guzzle": "^7.2",
-        "inertiajs/inertia-laravel": "2.0.6",
+        "inertiajs/inertia-laravel": "^2.0.0",
         "laravel/framework": "^12",
-        "laravel/sanctum": "4.2.0",
+        "laravel/sanctum": "^4.2.0",
         "laravel/tinker": "^2.8",
         "tightenco/ziggy": "^1.0"
     },
