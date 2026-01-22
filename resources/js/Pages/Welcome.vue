@@ -5,6 +5,7 @@ import image from "../Components/images/Jaguarundi.jpg";
 import FormFile from '@/Components/ContactForm.vue';
 import HeaderFile from '@/Components/Header.vue';
 import TestimonialFile from '@/Components/Testimonials.vue';
+import GuestLayout from '@/Layouts/GuestLayout.vue'
 
 defineProps({
     laravelVersion: {
@@ -19,6 +20,7 @@ defineProps({
 </script>
 
 <template>
+          
     <Head title="Dayton Tutoring" />
     <HeaderFile/>
     <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-gray-300 ">
@@ -62,9 +64,12 @@ defineProps({
         </div>
       
     </div>
+
     <TestimonialFile/>
     
     <FormFile /> 
+   
+  
 </template>
 
 <style>
