@@ -4,6 +4,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import image from "../Components/images/Jaguarundi.jpg";
 import FormFile from '@/Components/ContactForm.vue';
 import HeaderFile from '@/Components/Header.vue';
+import TestimonialFile from '@/Components/Testimonials.vue';
 
 defineProps({
     laravelVersion: {
@@ -61,7 +62,9 @@ defineProps({
         </div>
       
     </div>
-      <FormFile /> 
+    <TestimonialFile/>
+    
+    <FormFile /> 
 </template>
 
 <style>
