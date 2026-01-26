@@ -4,6 +4,8 @@ import { Link } from '@inertiajs/vue3';
 import NavLink from '@/Components/NavLink.vue';
 import primarybtn from '@/Components/PrimaryButton.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import Testimonials from '@/Pages/Testimonials.vue';
+import JohnLink from '@/Components/JohnLink.vue';
 </script>
 
 <template>
@@ -12,22 +14,30 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
             class="ml-4">
             Dashboard
         </Link>
-        <div v-if=$page.props.auth.user>
-            <primarybtn class="ml-4"> Testimonials</primarybtn>
-        </div>
+        <ResponsiveNavLink v-if="$page.props.auth.user" :href="route('testimonials')"
+            :active="route().current('testimonials')" class="ml-4">
+            Testimonials
+        </ResponsiveNavLink>
 
         <template v-else>
-            <ResponsiveNavLink class="ml-4"> Testimonials</ResponsiveNavLink>
-            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+            <ResponsiveNavLink :href="route('testimonials')" :active="route().current('testimonials')" class="ml-4">
+                Testimonials
+            </ResponsiveNavLink>
+
+            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')" class=" ml-4">
                 Dashboard
             </ResponsiveNavLink>
 
-            <Link :href="route('login')" :active="route().current('login')" class="=ml-4">
-                Log in
-            </Link>
-            <Link :href="route('register')" :active="route().current('register')" class="ml-4">
-                Register
-            </Link>
+            <nav class="flex justify-end space-x-1">
+                <john-link :href="route('login')" :active="route().current('login')">
+                    Login
+                </john-link>
+                <john-link :href="route('register')" :active="route().current('register')" class="ml-4">
+                    Register
+                </john-link>
+            </nav>
+
+
         </template>
     </nav>
 

@@ -4,7 +4,6 @@ import { Head, Link } from '@inertiajs/vue3';
 import image from "../Components/images/Jaguarundi.jpg";
 import FormFile from '@/Components/ContactForm.vue';
 import HeaderFile from '@/Components/Header.vue';
-import TestimonialFile from '@/Components/Testimonials.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue'
 import login from '@/Pages/Auth/Login.vue'
 import register from '@/Pages/Auth/Register.vue'
@@ -33,8 +32,6 @@ defineProps({
 
     <Head title="Dayton Tutoring" />
     <GuestLayout>
-
-
         <!--<HeaderFile/> -->
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-gray-300 ">
             <div class="max-w-7xl p-6 lg:p-8 bg-purple-700">
