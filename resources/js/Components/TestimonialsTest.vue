@@ -1,22 +1,25 @@
 <template>
-    <GuestLayout>
-        <section class="testimonials formz-centering">
-            <button @click="toggleForm" class="formz-title">What Our Students Say </button>
-            <div class="testimonial-list formz-background" v-if="showForm">
-                <article v-for="(t, index) in testimonials" :key="index" class="testimonial-card">
-                    <p class="quote">"{{ t.quote }}"</p>
-                    <div class="student-info">
-                        <strong class="name">{{ t.name }}</strong>
-                        <span class="subject">{{ t.subject }}</span>
-                    </div>
-                </article>
-            </div>
 
-        </section>
-    </GuestLayout>
+
+
+    <section class="testimonials formz-centering">
+        <button @click="toggleForm" class="formz-title">What Our Students Say </button>
+        <div class="testimonial-list formz-background" v-if="showForm">
+            <article v-for="(t, index) in testimonials" :key="index" class="testimonial-card">
+                <p class="quote">"{{ t.quote }}"</p>
+                <div class="student-info">
+                    <strong class="name">{{ t.name }}</strong>
+                    <span class="subject">{{ t.subject }}</span>
+                </div>
+            </article>
+        </div>
+
+    </section>
+
 </template>
 
 <script>
+import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { ref, nextTick } from 'vue';
 
 export default {
