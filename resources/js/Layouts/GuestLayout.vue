@@ -11,22 +11,16 @@ import JohnLink from '@/Components/JohnLink.vue';
 <template>
 
     <!-- Top Navigation -->
-    <nav class="flex items-center justify-between px-4 py-3">
+    <nav class="flex items-center justify-between px-4 py-3 bg-gray-900">
 
         <!-- Authenticated User Navigation -->
         <template v-if="$page.props.auth.user">
             <div class="flex space-x-4">
-                <JohnLink
-                    :href="route('dashboard')"
-                    :active="route().current('dashboard')"
-                >
+                <JohnLink :href="route('dashboard')" :active="route().current('dashboard')">
                     Dashboard
                 </JohnLink>
 
-                <JohnLink
-                    :href="route('testimonials')"
-                    :active="route().current('testimonials')"
-                >
+                <JohnLink :href="route('testimonials')" :active="route().current('testimonials')">
                     Testimonials
                 </JohnLink>
             </div>
@@ -35,33 +29,21 @@ import JohnLink from '@/Components/JohnLink.vue';
         <!-- Guest Navigation -->
         <template v-else>
             <div class="flex space-x-4">
-                <JohnLink
-                    :href="route('testimonials')"
-                    :active="route().current('testimonials')"
-                >
+                <JohnLink :href="route('testimonials')" :active="route().current('testimonials')">
                     Testimonials
                 </JohnLink>
 
-                <JohnLink
-                    :href="route('dashboard')"
-                    :active="route().current('dashboard')"
-                >
+                <JohnLink :href="route('dashboard')" :active="route().current('dashboard')">
                     Dashboard
                 </JohnLink>
             </div>
 
             <div class="flex space-x-4">
-                <JohnLink
-                    :href="route('login')"
-                    :active="route().current('login')"
-                >
+                <JohnLink :href="route('login')" :active="route().current('login')">
                     Login
                 </JohnLink>
 
-                <JohnLink
-                    :href="route('register')"
-                    :active="route().current('register')"
-                >
+                <JohnLink :href="route('register')" :active="route().current('register')">
                     Register
                 </JohnLink>
             </div>
@@ -71,37 +53,30 @@ import JohnLink from '@/Components/JohnLink.vue';
 
     <!-- Main Content -->
     <main>
-        <slot />
+        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-gray-200">
+            <slot />
+        </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-200 text-gray-700 py-4 px-6 mt-8">
+    <footer class="bg-gray-900 text-gray-200 py-4 px-6">
         <div class="container mx-auto flex justify-between items-center">
 
             <p>&copy; 2023 DaytonTutoring. All rights reserved.</p>
 
             <div class="flex items-center space-x-2">
-                <NavLink
-                    :href="route('PrivacyPolicy')"
-                    method="get"
-                    as="button"
-                    class="text-gray-600 hover:text-gray-900 whitespace-nowrap"
-                >
+                <NavLink :href="route('PrivacyPolicy')" method="get" as="button"
+                    class="text-gray-200 hover:text-gray-300 whitespace-nowrap">
                     Privacy Policy
                 </NavLink>
 
                 <span>|</span>
 
-                <NavLink
-                    :href="route('TermsOfUse')"
-                    method="get"
-                    as="button"
-                    class="text-gray-600 hover:text-gray-900 whitespace-nowrap"
-                >
+                <NavLink :href="route('TermsOfUse')" method="get" as="button"
+                    class="text-gray-200 hover:text-gray-300 whitespace-nowrap">
                     Terms of Use
                 </NavLink>
             </div>
-
         </div>
     </footer>
 
