@@ -1,10 +1,11 @@
 <script setup>
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 </script>
 
 <template>
-    <authenticated-layout>
+    <GuestLayout>
         <div class="max-w-7xl p-6 lg:p-8  mx-auto px-4 py-8">
             <p class="mb-8 text-3xl font-bold text-center"><strong>Privacy Policy</strong></p>
             <section class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -305,7 +306,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
                 <p> By sending an email: Admin@DaytonTutoring.com </p>
             </section>
         </div>
-    </authenticated-layout>
+    </GuestLayout>
 </template>
 
 <style scoped>
