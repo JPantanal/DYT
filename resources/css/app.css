@@ -1,3 +1,87 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.formz {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.formz h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.formz input,
+.formz textarea,
+.formz button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.formz button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.formz button:hover {
+  background-color: #0056b3;
+}
+
+.formz-background {
+    background-color: #d1d5db
+}
+.formz-title {
+  padding: 0.5rem 1rem;          /* px-4 py-2 */
+  background-color: #06b6d4;     /* bg-cyan-500 */
+  color: white;                  /* text-white */
+  font-weight: 600;              /* font-semibold */
+  border-radius: 9999px;         /* rounded-full */
+  border: 1px solid #0891b2;     /* border border-cyan-600 */
+  display: flex;                 /* flex */
+  transition: background-color 0.3s; /* transition duration-300 */
+}
+
+.formz-title:hover {
+  background-color: #0891b2;     /* hover:bg-cyan-600 */
+}
+
+.formz-centering {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formz-centering {
+    text-align: center;
+}
+
+.background1{
+   background: rgb(160, 132, 252)
+}
+
+.background2{
+   background:rgb(186, 104, 200)
+}
+.background3{
+   background: rgb(160, 132, 252)
+}
+
+.background4{
+background-color: rgb(216, 180, 254)
+}
+
+
+.goodborder
+{
+    border-radius: 50px 0;
+}
+

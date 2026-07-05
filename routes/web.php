@@ -32,7 +32,7 @@ Route::get('/', function () {
 
 
 Route::get('/dashboard', function () {
-   return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -67,4 +67,11 @@ Route::get('payment', [PaymentController::class, 'index'])->middleware(['auth', 
 //Route::get('payments', [PaymentController::class, 'index'])->middleware(['auth', 'verified'])->name('payments.index');
 
 
-require __DIR__.'/auth.php';
+Route::get('/Testimonials', function () {
+    return Inertia::render('Testimonials');
+})->name('testimonials');
+
+
+
+
+require __DIR__ . '/auth.php';

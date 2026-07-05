@@ -5,11 +5,11 @@ import { Head } from '@inertiajs/vue3';
 
 export default {
     name: "Payment",
-    components:{
+    components: {
         AuthenticatedLayout
     },
 
-    mounted(){
+    mounted() {
         // Only load the PayPal script if it hasn't already been loaded
         if (!window.paypal) {
             const script = document.createElement('script');
@@ -51,10 +51,11 @@ export default {
             }).render('#paypal-button-container'); // The element with this ID should be in your template
         }
     }
-    }
+}
 </script>
 
 <template>
+
     <Head title="Payments" />
     <AuthenticatedLayout>
         <div class="flex justify-center items-center h-screen">
@@ -63,6 +64,4 @@ export default {
     </AuthenticatedLayout>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -27,17 +27,15 @@ function toggleForm() {
 
 </script>
 
-    
+
 <template>
-<div class="bg-gray-300">
+  <div class="formz-background">
 
+    <div class="flex items-center justify-center">
+      <button @click="toggleForm" class="formz-title">Contact Us</button>
+    </div>
 
-<div class="flex items-center justify-center">
- <button @click="toggleForm" class="px-4 py-2 bg-cyan-500 text-white font-semibold rounded-full border border-cyan-600 hover:bg-cyan-600 transition duration-300 flex " >Contact Us</button>  
-</div>
-   
- 
-<div ref="formSection" v-if="showForm" class="contact-form bg-lime-400">
+    <div ref="formSection" v-if="showForm" class="formz bg-lime-400">
       <h2></h2>
       <form @submit.prevent="openEmailClient">
         <div>
@@ -55,7 +53,7 @@ function toggleForm() {
         <button type="submit">Send Email</button>
       </form>
     </div>
-    </div>
+  </div>
 </template>
 
 
@@ -81,39 +79,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.contact-form {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.contact-form h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.contact-form input,
-.contact-form textarea,
-.contact-form button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.contact-form button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.contact-form button:hover {
-  background-color: #0056b3;
-}
-</style>
+<style scoped></style>
