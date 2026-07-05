@@ -11,7 +11,7 @@ import JohnLink from '@/Components/JohnLink.vue';
 <template>
 
     <!-- Top Navigation -->
-    <nav class="flex items-center justify-between px-4 py-3 bg-gray-200">
+    <nav class="flex items-center justify-between px-4 py-3 bg-purple-300">
         <!-- Authenticated User Navigation -->
         <template v-if="$page.props.auth.user">
             <div class="relative flex items-center space-x-4 pl-[200px]">
@@ -66,7 +66,7 @@ import JohnLink from '@/Components/JohnLink.vue';
 
     <!-- Main Content -->
     <main>
-        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-gray-200">
+        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-gray-900">
             <slot />
         </div>
     </main>

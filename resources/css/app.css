@@ -59,7 +59,29 @@
     align-items: center;
     justify-content: center;
 }
-   
+
 .formz-centering {
     text-align: center;
 }
+
+.background1{
+   background: rgb(160, 132, 252)
+}
+
+.background2{
+   background:rgb(186, 104, 200)
+}
+.background3{
+   background: rgb(160, 132, 252)
+}
+
+.background4{
+background-color: rgb(216, 180, 254)
+}
+
+
+.goodborder
+{
+    border-radius: 50px 0;
+}
+

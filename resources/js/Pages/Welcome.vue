@@ -34,7 +34,7 @@ defineProps({
     <GuestLayout>
         <!--<HeaderFile/> -->
 
-        <div class="max-w-7xl p-6 lg:p-8 bg-purple-700">
+        <div class="max-w-6xl p-7 lg:p-10 background1 goodborder">
 
             <div class="flex justify-center ">
                 <div class="text-3xl">Dayton Tutoring</div>
