@@ -1,19 +1,31 @@
 <script setup>
 
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 </script>
 
 <template>
     <GuestLayout>
-        <div class="max-w-7xl p-6 lg:p-8  mx-auto px-4 py-8">
-            <p class="mb-8 text-3xl font-bold text-center"><strong>Privacy Policy</strong></p>
-            <section class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <h2 class="text-2xl font-bold mb-4">Introduction</h2>
-                <p class="mb-4">These Terms of Use govern your use of our website located at [website address] and form
-                    a binding contractual agreement between you, the user of the site, and us, [website owner name].</p>
-                <h2 class="text-2xl font-bold mb-4">Acceptance of Terms</h2>
-                <p class="mb-4">By accessing, downloading, or using the services offered on our site, you agree to be
+               <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Terms of Use</title>
+    <link rel="stylesheet" href="terms.css">
+</head>
+
+<body>
+        <div class="container">
+        <h1 class="page-title"><strong>Privacy Policy</strong></h1>
+            <section class="card">
+            <h2 class="section-title">Introduction</h2>
+            <p>
+                These Terms of Use govern your use of our website located at [website address] and form
+                    a binding contractual agreement between you, the user of the site, and us, [website owner name].
+
+            </p>
+
+            <h2 class="section-title">Acceptance of Terms</h2>
+                            <p>By accessing, downloading, or using the services offered on our site, you agree to be
                     bound by these Terms, which you acknowledge that you have read and understood.</p>
                 <p>Our Privacy Policy was last updated on 12/12/2023.</p>
                 <p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of
@@ -306,30 +318,56 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
                 <p> By sending an email: Admin@DaytonTutoring.com </p>
             </section>
         </div>
+
+</body>
+</html>
     </GuestLayout>
 </template>
 
 <style scoped>
+
+
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
-}
-
-h1 {
-    text-align: center;
-}
-
-h2 {
-    margin-top: 10px;
-}
-
-ul {
-    list-style-type: none;
+    background-color: #f3f4f6;
+    margin: 0;
     padding: 0;
 }
 
-li {
-    margin-bottom: 5px;
-    text-indent: 10px;
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
 }
+
+.page-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(123, 29, 29, 0.1);
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+strong {
+    font-weight: bold;
+}
+
 </style>
