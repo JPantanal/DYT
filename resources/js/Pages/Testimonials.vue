@@ -28,11 +28,23 @@ const testimonials = ref([
         quote:
             "My score jumped 180 points. The strategies made all the difference."
     },
+       {
+        name: "Jebediah Jeba",
+        subject: "Music Theory",
+        quote:
+            "My son in law is finally passing."
+    },
+       {
+        name: "Jabbah Inda Hut",
+        subject: "Music Theory",
+        quote:
+            "i killed my pet parrot by accident"
+    },
     {
         name: "Jebediah Jeba",
         subject: "Music Theory",
         quote:
-            "My autistic son in law is finally passing."
+            "My son in law is finally passing."
     },
     {
         name: "Sophia L.",
@@ -45,15 +57,12 @@ const testimonials = ref([
 </script>
 
 <template>
-
+  <GuestLayout>
     <Head title="Testimonials" />
-
-    <GuestLayout>
-        <header class="page-header">
-            What Our Students Say
-        </header>
-
         <section class="testimonials">
+            <div class="page-header ">
+            What Our Students Say
+        </div>
             <div class="testimonial-list">
                 <article v-for="(t, index) in testimonials" :key="index" class="testimonial-card">
                     <p class="quote">"{{ t.quote }}"</p>
@@ -74,7 +83,9 @@ const testimonials = ref([
     text-align: center;
     font-size: 2rem;
     font-weight: 700;
-    margin: 2rem 0 1rem;
+    margin: 2rem auto 1rem;
+    position:relative;
+    width:100%;
 }
 
 /* Section wrapper */
@@ -84,6 +95,7 @@ const testimonials = ref([
     padding: 2rem;
     background: #f7f9fc;
     border-radius: 12px;
+
 }
 
 /* Grid layout */

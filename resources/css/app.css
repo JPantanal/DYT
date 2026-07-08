@@ -71,13 +71,19 @@
 .background2{
    background:rgb(186, 104, 200)
 }
-.background3{
-   background: rgb(160, 132, 252)
+
+.background3 {
+    background: rgb(216, 180, 254)
 }
 
 .background4{
 background-color: rgb(216, 180, 254)
 }
+
+// my colors::after
+//  bg-gray-200 text-gray-700 py-4 px-6
+
+
 
 
 .goodborder

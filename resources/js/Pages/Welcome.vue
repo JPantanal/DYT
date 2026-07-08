@@ -29,13 +29,9 @@ defineProps({
 </script>
 
 <template>
-
     <Head title="Dayton Tutoring" />
     <GuestLayout>
-        <!--<HeaderFile/> -->
-
-        <div class="max-w-6xl p-7 lg:p-10 background1 goodborder">
-
+        <div class="max-w-6xl p-7 lg:p-10 background3 goodborder">
             <div class="flex justify-center ">
                 <div class="text-3xl">Dayton Tutoring</div>
 
@@ -90,6 +86,11 @@ defineProps({
                     enjoyable.
                 </p>
             </div>
+            <div class="flex justify-center py-6">
+    <a href="/events" class="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-semibold hover:bg-blue-700 transition">
+        Empower Your Student’s Success — Schedule a Session Today
+    </a>
+</div>
 
         </div>
 
