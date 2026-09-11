@@ -86,13 +86,13 @@ import JohnLink from '@/Components/JohnLink.vue';
             </div>
 
             <div class="footer-links">
-                <nav-link :href="route('PrivacyPolicy')" method="get" as="button" class="footer-link">
+                <nav-link :href="route('PrivacyPolicy')" :active="route().current('PrivacyPolicy')">
                     Privacy Policy
                 </nav-link>
 
                 <span class="footer-divider">|</span>
 
-                <nav-link :href="route('TermsOfUse')" method="get" as="button" class="footer-link">
+                <nav-link :href="route('TermsOfUse')" :active="route().current('TermsOfUse')">
                     Terms of Use
                 </nav-link>
             </div>

@@ -83,32 +83,9 @@ background-color: rgb(192, 133, 255)
 
 
 body {
-    font-family: 'Circular Std', sans-serif;
+    font-family: sans-serif;
     margin: 0;  /* removes white border     */
     padding: 0;
-    background-color: rgb(10, 10, 10)
+    background-color: rgb(6, 82, 246)
 }
 
-@font-face {
-    font-family: 'Circular Std';
-    src: url('/fonts/CircularStd/CircularStd-Book.woff2') format('woff2'),
-         url('/fonts/CircularStd/CircularStd-Book.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Circular Std';
-    src: url('/fonts/CircularStd/CircularStd-Medium.woff2') format('woff2'),
-         url('/fonts/CircularStd/CircularStd-Medium.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Circular Std';
-    src: url('/fonts/CircularStd/CircularStd-Bold.woff2') format('woff2'),
-         url('/fonts/CircularStd/CircularStd-Bold.woff') format('woff');
-    font-weight: 700;
-    font-style: normal;
-}
