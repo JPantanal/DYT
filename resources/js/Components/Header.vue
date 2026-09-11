@@ -13,10 +13,16 @@ defineProps({
 </script>
 
 <template>
-<div class="bg-black min-h-[25px] w-full">
+<div class="top-bar"></div>
 
-  
-</div>
+
 </template>
 
 
+<style>
+.top-bar {
+    background-color: #000;
+    min-height: 25px;
+    width: 100%;
+}
+</style>

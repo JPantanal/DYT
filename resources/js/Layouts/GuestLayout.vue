@@ -11,13 +11,15 @@ import JohnLink from '@/Components/JohnLink.vue';
 <template>
 
     <!-- Top Navigation -->
-    <nav class="flex items-center justify-between px-4 py-3 bg-purple-300">
+    <nav class="top-nav-bar">
         <!-- Authenticated User Navigation -->
         <template v-if="$page.props.auth.user">
-            <div class="relative flex items-center space-x-4 pl-[200px]">
-                <a href="http://127.0.0.1:8000/">
-                    <img src="DYTLogo.png" width="200" alt="DYTlogo" class="absolute top-0 left-0 z-10" />
+                <div class="row">
+
+                 <a href="http://127.0.0.1:8000/">
+                    <img src="DYTLogo.png" width="200" alt="DYTlogo" class="logo-class" />
                 </a>
+
                 <JohnLink :href="route('testimonials')" :active="route().current('testimonials')">
                     Testimonials
                 </JohnLink>
@@ -25,33 +27,32 @@ import JohnLink from '@/Components/JohnLink.vue';
                 <JohnLink :href="route('dashboard')" :active="route().current('dashboard')">
                     Dashboard
                 </JohnLink>
+                  </div>
 
-            </div>
-
-            <div class="flex space-x-4">
+            <div class="row">
                 <JohnLink :href="route('profile.edit')"> Profile </JohnLink>
                 <JohnLink :href="route('logout')" method="post" as="button">
                     Log Out
                 </JohnLink>
             </div>
         </template>
+
         <!-- Guest Navigation -->
         <template v-else>
-            <div class="relative flex items-center space-x-4 pl-[200px]">
+            <div class="linkers-left">
                 <a href="http://127.0.0.1:8000/">
-                    <img src="DYTLogo.png" width="200" alt="DYTlogo" class="absolute top-0 left-0 z-10" />
+                        <img src="DYTLogo.png" width="200" alt="DYTlogo" class="main-logo">
                 </a>
-                <JohnLink :href="route('testimonials')" :active="route().current('testimonials')">
-                    Testimonials
-                </JohnLink>
+                    <JohnLink :href="route('testimonials')" :active="route().current('testimonials')">
+                        Testimonials
+                    </JohnLink>
 
-                <JohnLink :href="route('dashboard')" :active="route().current('dashboard')">
-                    Dashboard
-                </JohnLink>
-
+                    <JohnLink :href="route('dashboard')" :active="route().current('dashboard')">
+                        Dashboard
+                    </JohnLink>
             </div>
 
-            <div class="flex space-x-4">
+            <div class="linkers-right">
                 <JohnLink :href="route('login')" :active="route().current('login')">
                     Login
                 </JohnLink>
@@ -66,29 +67,27 @@ import JohnLink from '@/Components/JohnLink.vue';
 
     <!-- Main Content -->
     <main>
-        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-gray-900">
+        <div class="class6">
             <slot />
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-200 py-4 px-6">
-        <div class="container mx-auto flex justify-between items-center">
+<footer class="footer">
+        <div class="footer-container">
+            <div>
+                <p>&copy; 2023 DaytonTutoring. All rights reserved.</p>
+            </div>
 
-            <p>&copy; 2023 DaytonTutoring. All rights reserved.</p>
-
-            <div class="flex items-center space-x-2">
-                <NavLink :href="route('PrivacyPolicy')" method="get" as="button"
-                    class="text-gray-200 hover:text-gray-300 whitespace-nowrap">
+            <div class="footer-links">
+                <nav-link :href="route('PrivacyPolicy')" method="get" as="button" class="footer-link">
                     Privacy Policy
-                </NavLink>
+                </nav-link>
 
-                <span>|</span>
+                <span class="footer-divider">|</span>
 
-                <NavLink :href="route('TermsOfUse')" method="get" as="button"
-                    class="text-gray-200 hover:text-gray-300 whitespace-nowrap">
+                <nav-link :href="route('TermsOfUse')" method="get" as="button" class="footer-link">
                     Terms of Use
-                </NavLink>
+                </nav-link>
             </div>
         </div>
     </footer>
@@ -103,11 +102,115 @@ import JohnLink from '@/Components/JohnLink.vue';
 
 
 .main-logo {
-    top: 0;
-    left: 0;
-    position: absolute;
-    z-index: 4;
+
+    position: static;
+    z-index: 50;
 }
+
+.top-nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    background-color: rgb(216 180 254); /* lavender-like */
+    padding: 0.75rem 1.5rem; /* top/bottom 0.75rem, left/right 1.5rem */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.class3 {
+  white-space: nowrap;
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity, 1));
+}
+
+.class3:hover {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity, 1));
+}
+
+.class6 {
+  position: relative;
+  min-height: 100vh;
+  --tw-bg-opacity: 1;
+  background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
+}
+
+@media (min-width: 640px) {
+  .class6 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.linkers-left {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.linkers-right {
+  display: flex;
+  align-items: right;
+  gap: .5rem;
+}
+
+.linkers > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+
+.row {
+  display: flex;
+  gap: 1rem; /* Tailwind's space-x-4 */
+}
+.row2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* same as Tailwind space-x-2 */
+}
+
+
+.footer {
+    background: #e5e7eb;
+    color: #374151;
+    padding: 1rem;
+}
+
+.footer-container {
+    margin: 0 auto;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-links {
+    display: flex;
+    align-items: left;
+    color: #4b5563;
+
+}
+
+.footer-link {
+
+}
+
+.footer-link:hover {
+    color: #111827;
+}
+
+.footer-divider {
+    margin: 0 0.5rem;
+}
+
+
+
+
+
+
+
 </style>
 
 

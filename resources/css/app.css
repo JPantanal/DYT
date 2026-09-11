@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 .formz {
   max-width: 500px;
   margin: 0 auto;
@@ -79,9 +77,6 @@
 .background4{
 background-color: rgb(216, 180, 254)
 }
-
-// my colors::after
-//  bg-gray-200 text-gray-700 py-4 px-6
 
 
 
