@@ -55,17 +55,15 @@ Route::get('calendar', [EventController::class, 'index']);
 
 Route::post('/tutoring/store', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name("events.store");
 Route::post('/tutoring/update', [EventController::class, 'update'])->middleware(['auth', 'verified'])->name("events.update");
-//Route::inertia('privacypolicy', 'privacypolicy');
 Route::get('/PrivacyPolicy', function () {
     return Inertia::render('PrivacyPolicy');
-})->middleware(['auth', 'verified'])->name('PrivacyPolicy');
+})->name('PrivacyPolicy');
+
 Route::get('/TermsOfUse', function () {
     return Inertia::render('TermsOfUse');
-})->middleware(['auth', 'verified'])->name('TermsOfUse');
+})->name('TermsOfUse');
 
 Route::get('payment', [PaymentController::class, 'index'])->middleware(['auth', 'verified'])->name('payments.index');
-//Route::get('payments', [PaymentController::class, 'index'])->middleware(['auth', 'verified'])->name('payments.index');
-
 
 Route::get('/Testimonials', function () {
     return Inertia::render('Testimonials');

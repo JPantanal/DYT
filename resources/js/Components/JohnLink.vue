@@ -1,14 +1,17 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-
+const props = defineProps({
+    href: String,
+    active: Boolean
+})
 </script>
 <template>
-<Link :href="href" class="fancy-link" :class="{ 'is-active': active }">
-    <span class="fancy-bg"></span>
-    <span :class="active ? 'fancy-text-active' : 'fancy-text-inactive'">
-        <slot />
-    </span>
-</Link>
+    <Link :href="href" class="fancy-link" :class="{ 'is-active': active }">
+        <span class="fancy-bg"></span>
+        <span :class="active ? 'fancy-text-active' : 'fancy-text-inactive'">
+            <slot />
+        </span>
+    </Link>
 
 
 </template>
@@ -19,6 +22,7 @@ import { Link } from '@inertiajs/vue3';
     color: white;
     transition: all 300ms ease;
 }
+
 .fancy-link.is-active .fancy-bg {
     height: 16rem;
     transform: translate(-5rem, -8rem) rotate(45deg);
@@ -33,6 +37,7 @@ import { Link } from '@inertiajs/vue3';
 .fancy-link:hover .fancy-text-inactive {
     color: white;
 }
+
 .fancy-bg {
     position: absolute;
     width: 16rem;
@@ -68,9 +73,4 @@ import { Link } from '@inertiajs/vue3';
     color: #4f46e5;
     transition: color 300ms ease;
 }
-
-
-
-
-
 </style>
