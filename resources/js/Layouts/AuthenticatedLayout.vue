@@ -8,16 +8,20 @@ import JohnLink from '@/Components/JohnLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 const showingNavigationDropdown = ref(false);
 </script>
-
 <template>
-    <div>
+
     <div class="layout">
         <nav class="nav">
             <div class="nav-container">
                 <div class="nav-row">
-                    <div class="nav-left">
-                        <div class="logo-area"></div>
 
+                    <!-- Left -->
+                    <div class="nav-left">
+                        <div class="logo-area">
+                            <a href="/">
+                                <img src="DYTLogo.png" width="200" alt="DYTlogo" class="logo-class" />
+                            </a>
+                        </div>
                         <div class="nav-links">
                             <JohnLink :href="route('dashboard')" :active="route().current('dashboard')">
                                 Dashboard
@@ -33,6 +37,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
                     </div>
 
+                    <!-- Right -->
                     <div class="nav-right">
                         <div class="settings">
                             <Dropdown align="right" width="48">
@@ -53,7 +58,7 @@ const showingNavigationDropdown = ref(false);
 
                                 <template #content>
                                     <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
-                                    <DropdownLink :href="route('logout')" method="post" as="button">
+                                    <DropdownLink :href="route('logout')">
                                         Log Out
                                     </DropdownLink>
                                 </template>
@@ -61,23 +66,27 @@ const showingNavigationDropdown = ref(false);
                         </div>
                     </div>
 
+                    <!-- Hamburger -->
                     <div class="hamburger">
-                        <button @click="showingNavigationDropdown = !showingNavigationDropdown" class="hamburger-button">
+                        <button @click="showingNavigationDropdown = !showingNavigationDropdown"
+                            class="hamburger-button">
                             <svg class="hamburger-icon" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                <path :class="{ hidden: showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown }"
+                                <path :class="showingNavigationDropdown ? 'icon-hidden' : 'icon-visible'"
                                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 6h16M4 12h16M4 18h16" />
 
-                                <path :class="{ hidden: !showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
+                                <path :class="showingNavigationDropdown ? 'icon-visible' : 'icon-hidden'"
                                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
+
                 </div>
             </div>
 
-            <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="mobile-nav">
+            <!-- Mobile Nav -->
+            <div :class="showingNavigationDropdown ? 'mobile-nav-show' : 'mobile-nav-hide'" class="mobile-nav">
                 <div class="mobile-links">
                     <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                         Dashboard
@@ -99,54 +108,55 @@ const showingNavigationDropdown = ref(false);
                     </div>
 
                     <div class="mobile-settings-links">
-                        <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                            Log Out
-                        </ResponsiveNavLink>
+                        <JohnLink :href="route('profile.edit')"> Profile </JohnLink>
+                        <JohnLink :href="route('logout')"> Log Out </JohnLink>
                     </div>
                 </div>
             </div>
         </nav>
 
+        <!-- Header -->
         <header class="header" v-if="$slots.header">
             <div class="header-inner">
                 <slot name="header" />
             </div>
         </header>
 
+        <!-- Main -->
         <main class="main">
             <slot />
         </main>
     </div>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
             <div>
                 <p>&copy; 2023 DaytonTutoring. All rights reserved.</p>
             </div>
-
             <div class="footer-links">
-                <nav-link :href="route('PrivacyPolicy')" method="get" as="button" class="footer-link">
+                <nav-link :href="route('PrivacyPolicy')" :active="route().current('PrivacyPolicy')">
                     Privacy Policy
                 </nav-link>
 
                 <span class="footer-divider">|</span>
 
-                <nav-link :href="route('TermsOfUse')" method="get" as="button" class="footer-link">
+                <nav-link :href="route('TermsOfUse')" :active="route().current('TermsOfUse')">
                     Terms of Use
                 </nav-link>
             </div>
         </div>
     </footer>
-</div>
 </template>
+
 <style>
-
-
 /* Layout */
 .layout {
     min-height: 100vh;
+    width: 100%;
     background-color: #f3f4f6;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Navigation */
@@ -164,11 +174,13 @@ const showingNavigationDropdown = ref(false);
 .nav-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     height: 4rem;
 }
 
 .nav-left {
     display: flex;
+    align-items: center;
 }
 
 .logo-area {
@@ -197,14 +209,12 @@ const showingNavigationDropdown = ref(false);
     .nav-right {
         display: flex;
         align-items: center;
-        margin-left: 1.5rem;
     }
 }
 
 /* Dropdown */
 .dropdown-trigger {
     display: inline-flex;
-    border-radius: 0.375rem;
 }
 
 .dropdown-button {
@@ -242,7 +252,6 @@ const showingNavigationDropdown = ref(false);
 
 .hamburger-button {
     padding: 0.5rem;
-    border-radius: 0.375rem;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -256,6 +265,10 @@ const showingNavigationDropdown = ref(false);
 /* Mobile nav */
 .mobile-nav {
     display: none;
+}
+
+.mobile-nav-show {
+    display: block;
 }
 
 .mobile-links {
@@ -294,7 +307,7 @@ const showingNavigationDropdown = ref(false);
 /* Header */
 .header {
     background: white;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .header-inner {
@@ -305,6 +318,7 @@ const showingNavigationDropdown = ref(false);
 
 /* Main */
 .main {
+    flex: 1;
     padding: 1rem;
 }
 
@@ -326,16 +340,6 @@ const showingNavigationDropdown = ref(false);
 .footer-links {
     display: flex;
     align-items: center;
-    color: #4b5563;
-
-}
-
-.footer-link {
-
-}
-
-.footer-link:hover {
-    color: #111827;
 }
 
 .footer-divider {

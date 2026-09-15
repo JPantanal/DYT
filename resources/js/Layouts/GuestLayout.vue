@@ -80,11 +80,9 @@ import JohnLink from '@/Components/JohnLink.vue';
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-
             <div>
                 <p>&copy; 2023 DaytonTutoring. All rights reserved.</p>
             </div>
-
             <div class="footer-links">
                 <nav-link :href="route('PrivacyPolicy')" :active="route().current('PrivacyPolicy')">
                     Privacy Policy
@@ -96,7 +94,6 @@ import JohnLink from '@/Components/JohnLink.vue';
                     Terms of Use
                 </nav-link>
             </div>
-
         </div>
     </footer>
 
